@@ -13,7 +13,7 @@
   </head>
   <body>
   <%
-    out.println("my test");
+    out.println("Fuck HIT");
   %>
   </body>
 </html>

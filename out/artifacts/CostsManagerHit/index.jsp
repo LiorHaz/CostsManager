@@ -1,6 +1,6 @@
-<%--
-  http://localhost:8010/CostsManagerHit/
---%>
+<%--  http://localhost:8010/CostsManagerHit/  --%>
+<%@ page language="java" import="costsManagerHit.model.*, java.util.*" contentType="text/html; charset=windows-1255"
+         pageEncoding="windows-1255"%>
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="components/common.css">

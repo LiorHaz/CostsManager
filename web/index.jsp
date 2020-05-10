@@ -1,6 +1,5 @@
-<%--
-  http://localhost:8010/CostsManagerHit/
---%>
+<%--  http://localhost:8010/CostsManagerHit/  --%>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="components/common.css">

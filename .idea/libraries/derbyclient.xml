@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="derbyclient">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../db-derby-10.14.2.0-bin/lib/derbyclient.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/mysqlconnector.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/לימודים-HIT/שנה ג'/סמסטר ב'/תכנות צד שרת java/כלים ותרגולים/hibernate_sample/jars_this_code_sample_uses/antlr-2.7.6.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/לימודים-HIT/שנה ג'/סמסטר ב'/תכנות צד שרת java/כלים ותרגולים/hibernate_sample/jars_this_code_sample_uses/commons-collections-3.1.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/לימודים-HIT/שנה ג'/סמסטר ב'/תכנות צד שרת java/כלים ותרגולים/hibernate_sample/jars_this_code_sample_uses/dom4j-1.6.1.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/לימודים-HIT/שנה ג'/סמסטר ב'/תכנות צד שרת java/כלים ותרגולים/hibernate_sample/jars_this_code_sample_uses/hibernate-jpa-2.0-api-1.0.0.Final.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/לימודים-HIT/שנה ג'/סמסטר ב'/תכנות צד שרת java/כלים ותרגולים/hibernate_sample/jars_this_code_sample_uses/hibernate3.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/לימודים-HIT/שנה ג'/סמסטר ב'/תכנות צד שרת java/כלים ותרגולים/hibernate_sample/jars_this_code_sample_uses/javassist-3.9.0.GA.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/לימודים-HIT/שנה ג'/סמסטר ב'/תכנות צד שרת java/כלים ותרגולים/hibernate_sample/jars_this_code_sample_uses/jta-1.1.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/לימודים-HIT/שנה ג'/סמסטר ב'/תכנות צד שרת java/כלים ותרגולים/hibernate_sample/jars_this_code_sample_uses/log4j-1.2.16.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/לימודים-HIT/שנה ג'/סמסטר ב'/תכנות צד שרת java/כלים ותרגולים/hibernate_sample/jars_this_code_sample_uses/mysql-connector-java-5.1.13-bin.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/לימודים-HIT/שנה ג'/סמסטר ב'/תכנות צד שרת java/כלים ותרגולים/hibernate_sample/jars_this_code_sample_uses/slf4j-api-1.5.8.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/לימודים-HIT/שנה ג'/סמסטר ב'/תכנות צד שרת java/כלים ותרגולים/hibernate_sample/jars_this_code_sample_uses/slf4j-log4j12-1.5.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

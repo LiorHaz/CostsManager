@@ -45,8 +45,6 @@ public class RouterServlet extends HttpServlet {
 
 			if (urlArray.length > 2)
 				controllerName = urlArray[2];
-				if (Objects.equals(controllerName, "css"))
-					return;
 			if (urlArray.length > 3)
 				action = urlArray[3];
 			else
@@ -55,11 +53,9 @@ public class RouterServlet extends HttpServlet {
 				id = urlArray[4];
 //			TODO check if controllerName is null and route to pageNotFound
 
-			String fullControllerName = controllerName + "Controller";
-			String controllerClassFullPath = costsManagerHit.config.CONTROLLERS_PACKAGE + "."
-					+ fullControllerName.substring(0, 1).toUpperCase() + fullControllerName.substring(1);
+			String controllerClassFullPath = getControllerClassFullPath(controllerName);
 
-			Class myController = Class.forName(controllerClassFullPath);
+			Class<?> myController = Class.forName(controllerClassFullPath);
 			method = myController.getMethod(action, HttpServletRequest.class, HttpServletResponse.class, String.class);
 			method.invoke(myController.newInstance(), request, response, id);
 
@@ -70,6 +66,12 @@ public class RouterServlet extends HttpServlet {
 				| InstantiationException | NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private String getControllerClassFullPath(String controllerName) {
+		String fullControllerName = controllerName + "Controller";
+		return costsManagerHit.config.CONTROLLERS_PACKAGE + "." + fullControllerName.substring(0, 1).toUpperCase() +
+				fullControllerName.substring(1);
 	}
 
 	/**

@@ -17,9 +17,6 @@
         <a href="http://localhost:8010/CostsManagerHit/expenses">Expenses</a>
       </li>
       <li>
-        <a href="http://localhost:8010/CostsManagerHit/addExpense">Add Expense</a>
-      </li>
-      <li>
         <a href="http://localhost:8010/CostsManagerHit/login">Login</a>
       </li>
       <li>

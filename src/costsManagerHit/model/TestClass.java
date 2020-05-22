@@ -1,6 +1,5 @@
 package costsManagerHit.model;
 
-import org.apache.catalina.ha.session.DeltaSession;
 import org.hibernate.cfg.IndexOrUniqueKeySecondPass;
 
 public class TestClass {

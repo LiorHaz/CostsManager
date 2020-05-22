@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Objects;
 
 
@@ -19,6 +20,8 @@ import java.util.Objects;
  */
 @WebServlet(urlPatterns = {"/CostsManagerHit/*"})
 public class RouterServlet extends HttpServlet {
+
+	String[] existingControllersNames = {"Expenses", "Login", "Register", "PageNotFound"};
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -40,18 +43,23 @@ public class RouterServlet extends HttpServlet {
 
 			Method method;
 			String action;
-			String id = null;
-			String controllerName = null;
+			String id = "";
+			String controllerName = "";
 
 			if (urlArray.length > 2)
-				controllerName = urlArray[2];
+				controllerName = urlArray[2].substring(0, 1).toUpperCase() + urlArray[2].substring(1);
 			if (urlArray.length > 3)
-				action = urlArray[3];
+				action = urlArray[3].substring(0, 1).toLowerCase() + urlArray[3].substring(1);
 			else
-				action = controllerName;
+				action = controllerName.substring(0, 1).toLowerCase() + controllerName.substring(1);
 			if (urlArray.length > 4)
 				id = urlArray[4];
-//			TODO check if controllerName is null and route to pageNotFound
+
+			if (Arrays.stream(existingControllersNames).noneMatch(controllerName::equals))
+			{
+				controllerName = "PageNotFound";
+				action = "pageNotFound";
+			}
 
 			String controllerClassFullPath = getControllerClassFullPath(controllerName);
 
@@ -62,16 +70,14 @@ public class RouterServlet extends HttpServlet {
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+action+".jsp");
 			dispatcher.include(request,response);
 
-		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException |	InvocationTargetException
+		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| InstantiationException | NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private String getControllerClassFullPath(String controllerName) {
-		String fullControllerName = controllerName + "Controller";
-		return costsManagerHit.config.CONTROLLERS_PACKAGE + "." + fullControllerName.substring(0, 1).toUpperCase() +
-				fullControllerName.substring(1);
+		return costsManagerHit.config.CONTROLLERS_PACKAGE + "." + controllerName + "Controller";
 	}
 
 	/**

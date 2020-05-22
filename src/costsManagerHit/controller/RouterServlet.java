@@ -45,8 +45,12 @@ public class RouterServlet extends HttpServlet {
 			String action;
 			String id = "";
 			String controllerName = "";
+			String viewName = "";
 
 			if (urlArray.length > 2)
+				viewName = urlArray[2];
+				if (Objects.equals(viewName, "css"))
+					return;
 				controllerName = urlArray[2].substring(0, 1).toUpperCase() + urlArray[2].substring(1);
 			if (urlArray.length > 3)
 				action = urlArray[3].substring(0, 1).toLowerCase() + urlArray[3].substring(1);
@@ -67,7 +71,7 @@ public class RouterServlet extends HttpServlet {
 			method = myController.getMethod(action, HttpServletRequest.class, HttpServletResponse.class, String.class);
 			method.invoke(myController.newInstance(), request, response, id);
 
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+action+".jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+viewName+".jsp");
 			dispatcher.include(request,response);
 
 		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException

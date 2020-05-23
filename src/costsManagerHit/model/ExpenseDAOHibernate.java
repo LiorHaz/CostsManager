@@ -4,6 +4,7 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class ExpenseDAOHibernate implements IExpenseDAO {
 
@@ -25,17 +26,19 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
     public boolean addExpense(Expense expense) throws ExpenseDAOException {
         Session session = null;
         try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            //            TODO Class.forName is a work around for driver not being loaded need to find a solution
+
             session = factory.openSession();
-//            TODO fix error of "Cannot open connection"
             session.beginTransaction();
             session.save(expense);
             session.getTransaction().commit();
             session.close();
-        } catch (HibernateException e) {
-            Transaction tx = session.getTransaction();
+        } catch (HibernateException | ClassNotFoundException e) {
+            Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive())
                 tx.rollback();
-            System.out.println(e);
+            e.printStackTrace();
         }
         return true;
     }
@@ -53,7 +56,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
             List expenses1 =query.list();
             if(expenses1.size()==0)
                 throw new ExpenseDAOException("There are no expenses in "+month);
-            expenses= new Expense[expenses1.size()];
+            expenses = new Expense[expenses1.size()];
             Iterator i = expenses1.iterator();
             int j=0;
             while(i.hasNext()) {
@@ -63,7 +66,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         }
         catch (HibernateException e)
         {
-            Transaction tx = session.getTransaction();
+            Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive()) tx.rollback();
         }
         catch (ExpenseDAOException e){
@@ -71,8 +74,8 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         }
         finally {
             if (session != null) session.close();
-            return expenses;
         }
+        return expenses;
     }
 
     @Override
@@ -106,21 +109,22 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         }
         catch (HibernateException e)
         {
-            Transaction tx = session.getTransaction();
+            Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive()) tx.rollback();
         }
         catch (ExpenseDAOException e){
             e.printStackTrace();
         }
         finally {
-            if (session != null) session.close();
-            return expenses;
+            if (session != null)
+                session.close();
         }
+        return expenses;
     }
 
     @Override
     public Expense[] getAll(int userId) throws ExpenseDAOException {
-        Expense[] expenses =null;
+        Expense[] expenses = null;
         Session session = null;
         try
         {
@@ -137,18 +141,19 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
                 j++;
             }
         }
-        catch (HibernateException e)
+        catch (HibernateException | ExpenseDAOException e)
         {
-            Transaction tx = session.getTransaction();
-            if (tx.isActive()) tx.rollback();
-        }
-        catch (ExpenseDAOException e){
+            Transaction tx = Objects.requireNonNull(session).getTransaction();
+            if (tx.isActive())
+                tx.rollback();
             e.printStackTrace();
+
         }
         finally {
-            if (session != null) session.close();
-            return expenses;
+            if (session != null)
+                session.close();
         }
+        return expenses;
     }
 
 }

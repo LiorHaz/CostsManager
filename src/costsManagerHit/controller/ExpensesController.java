@@ -1,5 +1,10 @@
 package costsManagerHit.controller;
 
+import costsManagerHit.model.Expense;
+import costsManagerHit.model.ExpenseDAOException;
+import costsManagerHit.model.ExpenseDAOHibernate;
+import costsManagerHit.model.IExpenseDAO;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,16 +24,21 @@ public class ExpensesController {
 	}
 
 	public void addExpense(HttpServletRequest request, HttpServletResponse response, String data) {
+//		TODO check if parameters are legit
 		String type = request.getParameter("expenseType");
 		String month = request.getParameter("expenseMonth");
 		String description = request.getParameter("expenseDescription");
 		int amount = Integer.parseInt(request.getParameter("expenseAmount"));
+		Expense expense = new Expense(amount, type, description, month, 1);
 
-		System.out.println("type = " + type);
-		System.out.println("month = " + month);
-		System.out.println("description = " + description);
-		System.out.println("amount = " + amount);
 
-//		TODO pass those parameters to DB
+		IExpenseDAO iExpenseDAOHibernate=null;
+
+		try {
+			iExpenseDAOHibernate = ExpenseDAOHibernate.getInstance();
+			iExpenseDAOHibernate.addExpense(expense);
+		} catch (ExpenseDAOException e) {
+			e.printStackTrace();
+		}
 	}
 }

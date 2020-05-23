@@ -1,17 +1,17 @@
 package costsManagerHit.model;
 import org.hibernate.*;
-import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
 
 import java.util.Iterator;
 import java.util.List;
 
-public class ExpenseDAOHibernate implements IExpenseDAO{
+public class ExpenseDAOHibernate implements IExpenseDAO {
 
     private static IExpenseDAO instance;
     private SessionFactory factory;
 
     private ExpenseDAOHibernate() throws ExpenseDAOException{
-        factory = new AnnotationConfiguration().configure().buildSessionFactory();
+        factory = new Configuration().configure().buildSessionFactory();
     }
 
     public static IExpenseDAO getInstance() throws ExpenseDAOException{
@@ -26,16 +26,18 @@ public class ExpenseDAOHibernate implements IExpenseDAO{
         Session session = null;
         try {
             session = factory.openSession();
+//            TODO fix error of "Cannot open connection"
             session.beginTransaction();
             session.save(expense);
             session.getTransaction().commit();
+            session.close();
         } catch (HibernateException e) {
             Transaction tx = session.getTransaction();
-            if (tx.isActive()) tx.rollback();
-        } finally {
-            if (session != null) session.close();
-            return true;
+            if (tx.isActive())
+                tx.rollback();
+            System.out.println(e);
         }
+        return true;
     }
 
     @Override
@@ -148,4 +150,5 @@ public class ExpenseDAOHibernate implements IExpenseDAO{
             return expenses;
         }
     }
+
 }

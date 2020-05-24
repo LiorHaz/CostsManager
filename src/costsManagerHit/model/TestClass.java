@@ -11,7 +11,7 @@ public class TestClass {
             iExpenseDAOHibernate.addExpense(new Expense(49.90,"Housing","Buying T-shirt","February",1));
             //iExpenseDAOHibernate.addExpense(new Expense(349.90,"Car","Buying fuel","February",1));
             //Expense[] expenses=iExpenseDAOHibernate.getExpensesBySearch("Car","January","",200,453.56,1);
-            Expense[] expenses=iExpenseDAOHibernate.getAll(1);
+            Expense[] expenses=iExpenseDAOHibernate.getAll();
             //Expense[] expenses=iExpenseDAOHibernate.getExpensesByMonth("February",1);
             for(Expense expense:expenses){
                 System.out.println(expense.toString());

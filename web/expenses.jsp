@@ -1,3 +1,4 @@
+<%@ page import="costsManagerHit.model.Expense" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -8,6 +9,33 @@
 
 <body>
   <h2>Expenses Table</h2>
+<%--  TODO pull data correctly first then remove the comment from table--%>
+<%--  <table>--%>
+<%--    <tr><td>Product</td><td>Price</td><td>Buy</td></tr>--%>
+<%--    <%--%>
+<%--      Expense[] expenses = (Expense[])(request.getAttribute("expenses"));--%>
+
+<%--      for (Expense currentExpense : expenses)--%>
+<%--      {--%>
+<%--        int id = currentExpense.getId();--%>
+<%--        double amount = currentExpense.getAmount();--%>
+<%--        String description = currentExpense.getDescription();--%>
+
+<%--    %>--%>
+<%--    <tr>--%>
+<%--      <td><%= String.valueOf(id) %></td>--%>
+<%--      <td><%= String.valueOf(amount) %></td>--%>
+<%--      <td><%= description %></td>--%>
+<%--    </tr>--%>
+<%--    <%--%>
+<%--      }--%>
+<%--    %>--%>
+<%--  </table>--%>
+  <br> <br>
+
+  <form method="post" action="http://localhost:8010/CostsManagerHit/expenses">
+    <input type="submit" value="Get Expenses"/>
+  </form>
 <%--  TODO add the table contents after pulling the info --%>
 
   <br> <br>

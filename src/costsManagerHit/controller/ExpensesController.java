@@ -7,13 +7,13 @@ import costsManagerHit.model.IExpenseDAO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 public class ExpensesController {
 
-	public void expenses(HttpServletRequest request, HttpServletResponse response, String data) {
-		System.out.println("expenses in expenses controller");
-//		Map<Integer,Product> products = ProductsDAO.createInstance().getProducts();
-//		request.setAttribute("products", "test1");
+	public void expenses(HttpServletRequest request, HttpServletResponse response, String data) throws ExpenseDAOException {
+		Expense[] expenses = ExpenseDAOHibernate.getInstance().getAll();
+		request.setAttribute("expenses", expenses);
 	}
 
 	public void expense(HttpServletRequest request, HttpServletResponse response, String data) {
@@ -31,9 +31,7 @@ public class ExpensesController {
 		int amount = Integer.parseInt(request.getParameter("expenseAmount"));
 		Expense expense = new Expense(amount, type, description, month, 1);
 
-
 		IExpenseDAO iExpenseDAOHibernate=null;
-
 		try {
 			iExpenseDAOHibernate = ExpenseDAOHibernate.getInstance();
 			iExpenseDAOHibernate.addExpense(expense);

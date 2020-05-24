@@ -9,5 +9,5 @@ public interface IExpenseDAO {
     Expense[] getExpensesBySearch(String type,String month,String description,
                                   double minAmount,double maxAmount,int userId) throws ExpenseDAOException;
     /*Get all the expenses from database*/
-    Expense[] getAll(int userId) throws ExpenseDAOException;
+    Expense[] getAll() throws ExpenseDAOException;
 }

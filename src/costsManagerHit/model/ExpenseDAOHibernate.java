@@ -51,26 +51,24 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         {
             session = factory.openSession();
             session.beginTransaction();
-            Query query = session.createQuery(" FROM Expense E WHERE E.month= :month and E.userId= :userId");
-            query.setString("month",month).setInteger("userId",userId);
-            List expenses1 =query.list();
-            if(expenses1.size()==0)
-                throw new ExpenseDAOException("There are no expenses in "+month);
-            expenses = new Expense[expenses1.size()];
-            Iterator i = expenses1.iterator();
-            int j=0;
-            while(i.hasNext()) {
-                expenses[j] = (Expense) i.next();
-                j++;
-            }
+//            TODO finish this part has errors
+//            Query query = session.createQuery(" FROM Expense E WHERE E.month= :month and E.userId= :userId");
+//            query.setString("month",month).setInteger("userId",userId);
+//            List expenses1 =query.list();
+//            if(expenses1.size()==0)
+//                throw new ExpenseDAOException("There are no expenses in "+month);
+//            expenses = new Expense[expenses1.size()];
+//            Iterator i = expenses1.iterator();
+//            int j=0;
+//            while(i.hasNext()) {
+//                expenses[j] = (Expense) i.next();
+//                j++;
+//            }
         }
         catch (HibernateException e)
         {
             Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive()) tx.rollback();
-        }
-        catch (ExpenseDAOException e){
-            e.printStackTrace();
         }
         finally {
             if (session != null) session.close();
@@ -123,25 +121,27 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
     }
 
     @Override
-    public Expense[] getAll(int userId) throws ExpenseDAOException {
+    public Expense[] getAll() throws ExpenseDAOException {
         Expense[] expenses = null;
         Session session = null;
         try
         {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
             session = factory.openSession();
             session.beginTransaction();
-            List expenses1 = session.createQuery("FROM Expense ").list();
-            if(expenses1.size()==0)
+//            TODO quary return null need to pull correct data
+            List expensesList = session.createQuery("FROM Expense").list();
+            if(expensesList.size() == 0)
                 throw new ExpenseDAOException("There are no expenses yet");
-            expenses= new Expense[expenses1.size()];
-            Iterator i = expenses1.iterator();
+            expenses = new Expense[expensesList.size()];
+            Iterator i = expensesList.iterator();
             int j=0;
             while(i.hasNext()) {
                 expenses[j] = (Expense) i.next();
                 j++;
             }
         }
-        catch (HibernateException | ExpenseDAOException e)
+        catch (HibernateException | ExpenseDAOException | ClassNotFoundException e)
         {
             Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive())

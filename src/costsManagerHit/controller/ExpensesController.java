@@ -28,13 +28,14 @@ public class ExpensesController {
 		String type = request.getParameter("expenseType");
 		String month = request.getParameter("expenseMonth");
 		String description = request.getParameter("expenseDescription");
-		int amount = Integer.parseInt(request.getParameter("expenseAmount"));
+		Double amount = Double.parseDouble(request.getParameter("expenseAmount"));
 		Expense expense = new Expense(amount, type, description, month, 1);
 
 		IExpenseDAO iExpenseDAOHibernate=null;
 		try {
 			iExpenseDAOHibernate = ExpenseDAOHibernate.getInstance();
 			iExpenseDAOHibernate.addExpense(expense);
+			expenses(request, response, data);
 		} catch (ExpenseDAOException e) {
 			e.printStackTrace();
 		}

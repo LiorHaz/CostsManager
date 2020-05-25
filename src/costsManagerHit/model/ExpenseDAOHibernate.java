@@ -1,6 +1,10 @@
 package costsManagerHit.model;
-import org.hibernate.*;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.classic.Session;
 
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +16,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
     private SessionFactory factory;
 
     private ExpenseDAOHibernate() throws ExpenseDAOException{
-        factory = new Configuration().configure().buildSessionFactory();
+        factory = new AnnotationConfiguration().configure().buildSessionFactory();
     }
 
     public static IExpenseDAO getInstance() throws ExpenseDAOException{
@@ -130,7 +134,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
             session = factory.openSession();
             session.beginTransaction();
 //            TODO quary return null need to pull correct data
-            List expensesList = session.createQuery("FROM Expense").list();
+            List expensesList = session.createQuery("from Expense").list();
             if(expensesList.size() == 0)
                 throw new ExpenseDAOException("There are no expenses yet");
             expenses = new Expense[expensesList.size()];
@@ -147,7 +151,6 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
             if (tx.isActive())
                 tx.rollback();
             e.printStackTrace();
-
         }
         finally {
             if (session != null)

@@ -9,28 +9,37 @@
 
 <body>
   <h2>Expenses Table</h2>
-<%--  TODO pull data correctly first then remove the comment from table--%>
-<%--  <table>--%>
-<%--    <tr><td>Product</td><td>Price</td><td>Buy</td></tr>--%>
-<%--    <%--%>
-<%--      Expense[] expenses = (Expense[])(request.getAttribute("expenses"));--%>
+  <table>
+    <tr>
+      <td>Product ID</td>
+      <td>Type</td>
+      <td>Price</td>
+      <td>Description</td>
+      <td>Month</td>
+    </tr>
+    <%
+      Expense[] expenses = (Expense[])(request.getAttribute("expenses"));
 
-<%--      for (Expense currentExpense : expenses)--%>
-<%--      {--%>
-<%--        int id = currentExpense.getId();--%>
-<%--        double amount = currentExpense.getAmount();--%>
-<%--        String description = currentExpense.getDescription();--%>
+      for (Expense currentExpense : expenses)
+      {
+        int id = currentExpense.getId();
+        String type = currentExpense.getType();
+        double amount = currentExpense.getAmount();
+        String description = currentExpense.getDescription();
+        String month = currentExpense.getMonth();
 
-<%--    %>--%>
-<%--    <tr>--%>
-<%--      <td><%= String.valueOf(id) %></td>--%>
-<%--      <td><%= String.valueOf(amount) %></td>--%>
-<%--      <td><%= description %></td>--%>
-<%--    </tr>--%>
-<%--    <%--%>
-<%--      }--%>
-<%--    %>--%>
-<%--  </table>--%>
+    %>
+    <tr>
+      <td><%= String.valueOf(id) %></td>
+      <td><%= type %></td>
+      <td><%= String.valueOf(amount) %></td>
+      <td><%= description %></td>
+      <td><%= month %></td>
+    </tr>
+    <%
+      }
+    %>
+  </table>
   <br> <br>
 
   <form method="post" action="http://localhost:8010/CostsManagerHit/expenses">
@@ -65,7 +74,7 @@
     <br> <br>
     Description: <input type="text" name="expenseDescription" />
     <br> <br>
-    Amount: <input type="number" name="expenseAmount" />
+    Amount: <input type="number" step="0.01" name="expenseAmount" />
     <br> <br>
     <input type="submit" value="Save"/>
   </form>

@@ -1,7 +1,5 @@
 package costsManagerHit.model;
 
-import org.hibernate.annotations.Columns;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -11,16 +9,19 @@ public class Expense {
     private int id;
     private int userId;
     private double amount;
-    private String type,description,month;
+    private String type, description, month;
 
-    public Expense() {}
+    public Expense()
+    {
+        super();
+    }
 
     public Expense(double amount, String type, String description, String month, int userId) {
         this.amount = amount;
         this.type = type;
         this.description = description;
         this.month = month;
-        this.userId=userId;
+        this.userId = userId;
     }
 
     public int getId() {

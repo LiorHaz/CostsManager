@@ -18,7 +18,6 @@ public class ExpensesController {
 
 	public void expense(HttpServletRequest request, HttpServletResponse response, String data) {
 		System.out.println("expense in expenses controller");
-//		TODO pull expenses from DB (first need to complete addExpense)
 //		Product product = ProductsDAO.createInstance().getProducts().get(Integer.parseInt(data));
 		request.setAttribute("product", "test2");
 	}
@@ -28,12 +27,11 @@ public class ExpensesController {
 		String type = request.getParameter("expenseType");
 		String month = request.getParameter("expenseMonth");
 		String description = request.getParameter("expenseDescription");
-		Double amount = Double.parseDouble(request.getParameter("expenseAmount"));
+		double amount = Double.parseDouble(request.getParameter("expenseAmount"));
 		Expense expense = new Expense(amount, type, description, month, 1);
 
-		IExpenseDAO iExpenseDAOHibernate=null;
 		try {
-			iExpenseDAOHibernate = ExpenseDAOHibernate.getInstance();
+			IExpenseDAO iExpenseDAOHibernate = ExpenseDAOHibernate.getInstance();
 			iExpenseDAOHibernate.addExpense(expense);
 			expenses(request, response, data);
 		} catch (ExpenseDAOException e) {

@@ -133,7 +133,6 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             session = factory.openSession();
             session.beginTransaction();
-//            TODO quary return null need to pull correct data
             List expensesList = session.createQuery("from Expense").list();
             if(expensesList.size() == 0)
                 throw new ExpenseDAOException("There are no expenses yet");

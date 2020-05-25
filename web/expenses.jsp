@@ -45,19 +45,20 @@
   <form method="post" action="http://localhost:8010/CostsManagerHit/expenses">
     <input type="submit" value="Get Expenses"/>
   </form>
-<%--  TODO add the table contents after pulling the info --%>
 
   <br> <br>
   <h2>Add an Expense</h2>
   <form method="post" action="http://localhost:8010/CostsManagerHit/expenses/addExpense">
-    Choose a type: <select id="expenseType" name="expenseType">
+    <label for="expenseType">Choose a type: </label>
+    <select id="expenseType" name="expenseType">
       <option value="general">general</option>
       <option value="car">car</option>
       <option value="house">house</option>
       <option value="food">food</option>
     </select>
     <br> <br>
-    Choose a month: <select id="expenseMonth" name="expenseMonth">
+    <label for="expenseMonth">Choose a month: </label>
+    <select id="expenseMonth" name="expenseMonth">
       <option value="January">January</option>
       <option value="February">February</option>
       <option value="March">March</option>
@@ -71,6 +72,7 @@
       <option value="November">November</option>
       <option value="December">December</option>
     </select>
+
     <br> <br>
     Description: <input type="text" name="expenseDescription" />
     <br> <br>

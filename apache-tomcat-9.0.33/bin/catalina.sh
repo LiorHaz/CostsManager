@@ -343,7 +343,6 @@ if [ "$1" = "jpda" ] ; then
   shift
 fi
 
-# TODO: Bugzilla 63815
 # This doesn't currently work (and can't be made to work) if values used in
 # CATALINA_OPTS and/or JAVA_OPTS require quoting. See:
 # https://bugs.openjdk.java.net/browse/JDK-8234808

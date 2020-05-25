@@ -6,5 +6,5 @@ public interface IUserDAO {
     User validateUser(String username,String password) throws UserDAOException;
     /*If the user is not exist , he will be added to the database and will be returned with his id
     * else, the method will return null*/
-    User addUser(User user) throws UserDAOException;
+    User addUser(String username,String password) throws UserDAOException;
 }

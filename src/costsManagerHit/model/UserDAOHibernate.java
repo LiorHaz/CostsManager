@@ -51,12 +51,12 @@ public class UserDAOHibernate implements IUserDAO{
         finally
         {
             if(session!=null) session.close();
-            return u;
         }
+        return u;
     }
 
     @Override
-    public User addUser(User user) throws UserDAOException {
+    public User addUser(String userName,String password) throws UserDAOException {
         Session session = null;
         User u=null;
         try
@@ -65,21 +65,19 @@ public class UserDAOHibernate implements IUserDAO{
             session.beginTransaction();
             //Checks if the user exists before adding him
             Query query=session.createQuery("FROM User U WHERE U.username = :username")
-                    .setString("username",user.getUsername());
+                    .setString("username",userName);
             List users = query.list();
             if(users.size()!=0)//The user exists - return null
-                throw new UserDAOException("Username '" + user.getUsername() +"' already exists - try another username");
+                throw new UserDAOException("Username '" + userName +"' already exists - try another username");
             //Saves the user in database and returning him with id for the session object
+            User user =new User(userName,password);
             session.save(user);
             session.getTransaction().commit();
             query=null;
             query=session.createQuery("from User U where U.username= :username")
-                    .setString("username",user.getUsername());
+                    .setString("username",userName);
             users=query.list();
-            Iterator i=users.iterator();
             u=(User)users.get(0);
-            /*while(i.hasNext())
-                u=(User)i.next();*/
         }
         catch (HibernateException e)
         {
@@ -92,7 +90,7 @@ public class UserDAOHibernate implements IUserDAO{
         finally
         {
             if(session!=null) session.close();
-            return u;
         }
+        return u;
     }
 }

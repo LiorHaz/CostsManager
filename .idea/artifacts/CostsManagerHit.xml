@@ -10,9 +10,9 @@
         <element id="directory" name="lib">
           <element id="library" level="project" name="Db" />
           <element id="library" level="project" name="Java EE 6-Java EE 6" />
+          <element id="library" level="project" name="derbyclient" />
         </element>
       </element>
-      <element id="library" level="project" name="Hibernate 5.4.11-5.4.11" />
     </root>
   </artifact>
 </component>

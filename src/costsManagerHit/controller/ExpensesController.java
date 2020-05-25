@@ -18,8 +18,8 @@ public class ExpensesController {
 
 	public void expense(HttpServletRequest request, HttpServletResponse response, String data) {
 		System.out.println("expense in expenses controller");
-//		Product product = ProductsDAO.createInstance().getProducts().get(Integer.parseInt(data));
-		request.setAttribute("product", "test2");
+		//Product product = ProductsDAO.createInstance().getProducts().get(Integer.parseInt(data));
+		//request.setAttribute("product", "test2");
 	}
 
 	public void addExpense(HttpServletRequest request, HttpServletResponse response, String data) {

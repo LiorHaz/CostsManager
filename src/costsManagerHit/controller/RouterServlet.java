@@ -2,6 +2,8 @@
 
 package costsManagerHit.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,14 +46,13 @@ public class RouterServlet extends HttpServlet {
 			Method method;
 			String action;
 			String id = "";
-			String controllerName = "";
 			String viewName = "";
 
 			if (urlArray.length > 2)
 				viewName = urlArray[2];
 				if (Objects.equals(viewName, "css"))
 					return;
-				controllerName = urlArray[2].substring(0, 1).toUpperCase() + urlArray[2].substring(1);
+			String controllerName = urlArray[2].substring(0, 1).toUpperCase() + urlArray[2].substring(1);
 			if (urlArray.length > 3)
 				action = urlArray[3].substring(0, 1).toLowerCase() + urlArray[3].substring(1);
 			else
@@ -69,7 +70,12 @@ public class RouterServlet extends HttpServlet {
 
 			Class<?> myController = Class.forName(controllerClassFullPath);
 			method = myController.getMethod(action, HttpServletRequest.class, HttpServletResponse.class, String.class);
-			method.invoke(myController.newInstance(), request, response, id);
+			Boolean actionReturnValue = (Boolean) method.invoke(myController.newInstance(), request, response, id);
+
+			//				TODO add "register failed msg" or "register done msg"
+//			if (Objects.equals(action, "attemptRegister") && !actionReturnValue)
+//			{
+//			}
 
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+viewName+".jsp");
 			dispatcher.include(request,response);

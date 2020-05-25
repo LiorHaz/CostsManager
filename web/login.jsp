@@ -3,22 +3,24 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/css/common.css">
     <link rel="stylesheet" type="text/css" href="/css/login.css">
-    <title>Login</title>
+    <title>Log In</title>
 </head>
 
 <body>
-Login Works!
+    <form method="post" action="http://localhost:8010/CostsManagerHit/login/attemptLogIn">
+        Welcome stranger, please log in first:
+        <br> <br>
+        User Name: <input type="text" name="userName" />
+        <br> <br>
+        Password: <input type="text" name="password" />
+        <br> <br>
+        <input type="submit" value="Log In"/>
+    </form>
 </body>
 
 <footer>
     <nav>
         <ul>
-            <li>
-                <a href="http://localhost:8010/CostsManagerHit/expenses">Expenses</a>
-            </li>
-            <li>
-                <a href="http://localhost:8010/CostsManagerHit/login">Login</a>
-            </li>
             <li>
                 <a href="http://localhost:8010/CostsManagerHit/register">Register</a>
             </li>

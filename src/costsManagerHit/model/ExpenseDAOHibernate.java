@@ -15,11 +15,11 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
     private static IExpenseDAO instance;
     private SessionFactory factory;
 
-    private ExpenseDAOHibernate() throws ExpenseDAOException{
+    private ExpenseDAOHibernate() {
         factory = new AnnotationConfiguration().configure().buildSessionFactory();
     }
 
-    public static IExpenseDAO getInstance() throws ExpenseDAOException{
+    public static IExpenseDAO getInstance() {
         if(instance==null){
             instance= new ExpenseDAOHibernate();
         }
@@ -27,43 +27,48 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
     }
 
     @Override
-    public boolean addExpense(Expense expense) throws ExpenseDAOException {
+    public boolean addExpense(Expense expense) {
         Session session = null;
         try {
             session = factory.openSession();
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            //            TODO Class.forName is a work around for driver not being loaded need to find a solution
             session.beginTransaction();
             session.save(expense);
             session.getTransaction().commit();
-            session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException | ClassNotFoundException e) {
             Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive())
                 tx.rollback();
             e.printStackTrace();
+        } finally {
+            if (session != null)
+                session.close();
         }
         return true;
     }
 
     @Override
-    public Expense[] getExpensesByMonth(String month, int userId) throws ExpenseDAOException {
+    public Expense[] getExpensesByMonth(String month, int userId) {
         Expense[] expenses =null;
         Session session = null;
         try
         {
             session = factory.openSession();
             session.beginTransaction();
-            Query query = session.createQuery(" FROM Expense E WHERE E.month= :month and E.userId= :userId");
-            query.setString("month",month).setInteger("userId",userId);
-            List expenses1 =query.list();
-            if(expenses1.size()==0)
-                throw new ExpenseDAOException("There are no expenses in "+month);
-            expenses = new Expense[expenses1.size()];
-            Iterator i = expenses1.iterator();
-            int j=0;
-            while(i.hasNext()) {
-                expenses[j] = (Expense) i.next();
-                j++;
-            }
+//            TODO finish this part has errors
+//            Query query = session.createQuery(" FROM Expense E WHERE E.month= :month and E.userId= :userId");
+//            query.setString("month",month).setInteger("userId",userId);
+//            List expenses1 =query.list();
+//            if(expenses1.size()==0)
+//                throw new ExpenseDAOException("There are no expenses in "+month);
+//            expenses = new Expense[expenses1.size()];
+//            Iterator i = expenses1.iterator();
+//            int j=0;
+//            while(i.hasNext()) {
+//                expenses[j] = (Expense) i.next();
+//                j++;
+//            }
         }
         catch (HibernateException e)
         {
@@ -78,7 +83,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
 
     @Override
     public Expense[] getExpensesBySearch(String type, String month, String description, double minAmount,
-                                         double maxAmount, int userId) throws ExpenseDAOException {
+                                         double maxAmount, int userId) {
         Expense[] expenses =null;
         Session session = null;
         try
@@ -94,11 +99,11 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
                     .setDouble("minAmount",minAmount)
                     .setDouble("maxAmount",maxAmount)
                     .setInteger("userId",userId);
-            List expenses1 = query.list();
+            List<?> expenses1 = query.list();
             if(expenses1.size()==0)
                 throw new ExpenseDAOException("There are no expenses which match to your search");
             expenses= new Expense[expenses1.size()];
-            Iterator i = expenses1.iterator();
+            Iterator<?> i = expenses1.iterator();
             int j=0;
             while(i.hasNext()) {
                 expenses[j] = (Expense) i.next();
@@ -116,31 +121,31 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         finally {
             if (session != null)
                 session.close();
-            return expenses;
         }
-
+        return expenses;
     }
 
     @Override
-    public Expense[] getAll() throws ExpenseDAOException {
+    public Expense[] getAll() {
         Expense[] expenses = null;
         Session session = null;
         try
         {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
             session = factory.openSession();
             session.beginTransaction();
-            List expensesList = session.createQuery("from Expense").list();
+            List<?> expensesList = session.createQuery("from Expense").list();
             if(expensesList.size() == 0)
                 throw new ExpenseDAOException("There are no expenses yet");
             expenses = new Expense[expensesList.size()];
-            Iterator i = expensesList.iterator();
+            Iterator<?> i = expensesList.iterator();
             int j=0;
             while(i.hasNext()) {
                 expenses[j] = (Expense) i.next();
                 j++;
             }
         }
-        catch (HibernateException | ExpenseDAOException  e)
+        catch (HibernateException | ExpenseDAOException | ClassNotFoundException e)
         {
             Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive())
@@ -150,8 +155,8 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         finally {
             if (session != null)
                 session.close();
-            return expenses;
         }
+        return expenses;
     }
 
 }

@@ -27,7 +27,6 @@
         double amount = currentExpense.getAmount();
         String description = currentExpense.getDescription();
         String month = currentExpense.getMonth();
-
     %>
     <tr>
       <td><%= String.valueOf(id) %></td>

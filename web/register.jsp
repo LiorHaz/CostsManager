@@ -7,7 +7,15 @@
 </head>
 
 <body>
-Register Works!
+<form method="post" action="http://localhost:8010/CostsManagerHit/register/attemptRegister">
+    Please fill the form in order to register:
+    <br> <br>
+    User Name: <input type="text" name="userName" />
+    <br> <br>
+    Password: <input type="text" name="password" />
+    <br> <br>
+    <input type="submit" value="Register"/>
+</form>
 </body>
 
 <footer>

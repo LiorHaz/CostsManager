@@ -7,6 +7,8 @@
 </head>
 
 <body>
+<%--TODO add "register failed msg" or "register done msg" using getParameter--%>
+
 <form method="post" action="http://localhost:8010/CostsManagerHit/register/attemptRegister">
     Please fill the form in order to register:
     <br> <br>

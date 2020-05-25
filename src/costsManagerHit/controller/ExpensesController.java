@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class ExpensesController {
 
-	public void expenses(HttpServletRequest request, HttpServletResponse response, String data) throws ExpenseDAOException {
+	public static void expenses(HttpServletRequest request, HttpServletResponse response, String data) throws ExpenseDAOException {
 		Expense[] expenses = ExpenseDAOHibernate.getInstance().getAll();
 		request.setAttribute("expenses", expenses);
 	}

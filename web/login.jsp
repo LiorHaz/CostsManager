@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <form method="post" action="http://localhost:8010/CostsManagerHit/login/attemptLogIn">
+    <form method="post" action="http://localhost:8010/CostsManagerHit/login/attemptLogin">
         Welcome stranger, please log in first:
         <br> <br>
         User Name: <input type="text" name="userName" />

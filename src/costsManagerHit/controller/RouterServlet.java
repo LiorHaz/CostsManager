@@ -72,10 +72,11 @@ public class RouterServlet extends HttpServlet {
 			method = myController.getMethod(action, HttpServletRequest.class, HttpServletResponse.class, String.class);
 			Boolean actionReturnValue = (Boolean) method.invoke(myController.newInstance(), request, response, id);
 
-			//				TODO add "register failed msg" or "register done msg"
-//			if (Objects.equals(action, "attemptRegister") && !actionReturnValue)
-//			{
-//			}
+
+			if (Objects.equals(action, "attemptLogin") && actionReturnValue)
+			{
+				viewName = "expenses";
+			}
 
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+viewName+".jsp");
 			dispatcher.include(request,response);

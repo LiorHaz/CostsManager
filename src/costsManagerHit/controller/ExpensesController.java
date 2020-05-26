@@ -18,9 +18,6 @@ public class ExpensesController {
 		request.setAttribute("sum",sum);
 	}
 
-	public void expense(HttpServletRequest request, HttpServletResponse response, String data) {
-		System.out.println("expense in expenses controller");
-	}
 
 	public void addExpense(HttpServletRequest request, HttpServletResponse response, String data) {
 		String type = request.getParameter("expenseType");
@@ -40,7 +37,7 @@ public class ExpensesController {
 
 	private static double getExspensesSum(Expense[] expenses){
 		double sum=0.0;
-		for (Expense expens : expenses) sum += expens.getAmount();
+		for (Expense expense : expenses) sum += expense.getAmount();
 		return sum;
 	}
 }

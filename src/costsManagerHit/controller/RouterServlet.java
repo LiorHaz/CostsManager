@@ -74,9 +74,9 @@ public class RouterServlet extends HttpServlet {
 
 
 			if (Objects.equals(action, "attemptLogin") && actionReturnValue)
-			{
 				viewName = "expenses";
-			}
+			else if(Objects.equals(action, "attemptRegister") && actionReturnValue)
+				viewName="login";
 
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+viewName+".jsp");
 			dispatcher.include(request,response);

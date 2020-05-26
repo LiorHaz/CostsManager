@@ -1,7 +1,6 @@
 package costsManagerHit.model;
 
 public interface IUserDAO {
-    boolean addUser(User user) throws UserDAOException;
-    boolean userExistsInDb(String userName) throws UserDAOException, ClassNotFoundException;
-    boolean nameAndPassMatchDb(String userName, String password);
+     User addUser(String userName,String password) throws UserDAOException;
+     User validateUser(String userName,String password) throws UserDAOException;
 }

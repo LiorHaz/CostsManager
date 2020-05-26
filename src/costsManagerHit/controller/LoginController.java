@@ -14,16 +14,19 @@ public class LoginController {
     public boolean attemptLogin(HttpServletRequest request, HttpServletResponse response, String data) {
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
-
         try {
             IUserDAO iUserDAOHibernate = UserDAOHibernate.getInstance();
-            if (iUserDAOHibernate.nameAndPassMatchDb(userName, password))
-            {
-//                TODO change to "getExpensesById"
+            User user=iUserDAOHibernate.validateUser(userName, password);
+            //The user logged in successfully
+            if (user!=null)
+            {   //set reference of the current user for this session
+                request.getSession().setAttribute("user",user);
                 ExpensesController.expenses(request, response, data);
                 return true;
             }
-        } catch (ExpenseDAOException e) {
+            else //An indicator for unsuccessful login
+                request.setAttribute("isSuccessfullyLoggedIn",false);
+        } catch (ExpenseDAOException | UserDAOException e) {
             e.printStackTrace();
         }
         return false;

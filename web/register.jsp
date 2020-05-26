@@ -8,16 +8,21 @@
 
 <body>
 <%--TODO add "register failed msg" or "register done msg" using getParameter--%>
-
 <form method="post" action="http://localhost:8010/CostsManagerHit/register/attemptRegister">
     Please fill the form in order to register:
     <br> <br>
-    User Name: <input type="text" name="userName" />
+    User Name: <input type="text" name="userName" required/>
     <br> <br>
-    Password: <input type="text" name="password" />
+    Password: <input type="text" name="password" required/>
     <br> <br>
     <input type="submit" value="Register"/>
 </form>
+<%
+Boolean isSuccessful= (Boolean)request.getAttribute("isRegisteredSuccessfully");
+if(isSuccessful!=null)
+    if(!isSuccessful)
+        out.println("This username is already taken.</br>Please try another username.");
+%>
 </body>
 
 <footer>

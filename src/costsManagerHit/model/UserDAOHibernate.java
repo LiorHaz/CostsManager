@@ -23,70 +23,76 @@ public class UserDAOHibernate implements IUserDAO{
         return instance;
     }
 
-    public boolean nameAndPassMatchDb(String userName, String password)
-    {
-        Session session = factory.openSession();
-        try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
+    @Override
+    public User validateUser(String userName,String password) throws UserDAOException {
+        Session session = null;
+        User u=null;
+        try
+        {
+            session = factory.openSession();
             session.beginTransaction();
+            //Checks if the user exists or details are valid
             Query query=session.createQuery("FROM User U WHERE U.username = :username and U.password= :password")
                     .setString("username",userName)
                     .setString("password",password);
             List<?> users = query.list();
-            if (users.size() == 0)
-                return false;
-        } catch (HibernateException | ClassNotFoundException e) {
-            e.printStackTrace();
+            if(users.size()==0)//The user does not exists or wrong password - return null
+                throw new UserDAOException("Username '" + userName +"' is not valid or wrong password");
+            //The user exists - return him
+            u=(User)users.get(0);
         }
-        finally {
-            if(session != null)
-                session.close();
-        }
-        return true;
-    }
-
-    @Override
-    public boolean addUser(User user) {
-        Session session = null;
-        try
+        catch (HibernateException e)
         {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            session = factory.openSession();
-            session.beginTransaction();
-            session.save(user);
-            session.getTransaction().commit();
+            Transaction tx = session.getTransaction();
+            if (tx.isActive()) tx.rollback();
         }
-        catch (HibernateException | ClassNotFoundException e)
-        {
-            Transaction tx = Objects.requireNonNull(session).getTransaction();
-            if (tx.isActive())
-                tx.rollback();
+        catch (UserDAOException e){
             e.printStackTrace();
         }
         finally
         {
-            if(session != null)
-                session.close();
+            if(session!=null) session.close();
         }
-        return false;
+        return u;
     }
 
-    public boolean userExistsInDb(String userName) {
-        Session session = factory.openSession();
-        try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
+    @Override
+    public User addUser(String userName,String password) throws UserDAOException {
+        Session session = null;
+        User u=null;
+        try
+        {
+            session = factory.openSession();
             session.beginTransaction();
-            Query query = session.createQuery("FROM User U WHERE U.username = :username").setString("username", userName);
+            //Checks if the user exists before adding him
+            Query query=session.createQuery("FROM User U WHERE U.username = :username")
+                    .setString("username",userName);
             List<?> users = query.list();
-            if (users.size() == 0)
-                return false;
-        } catch (HibernateException | ClassNotFoundException e) {
+            if(users.size()!=0)//The user exists - return null
+                throw new UserDAOException("Username '" + userName +"' already exists - try another username");
+            //Saves the user in database and returning him with id for the session object
+            User user=new User(userName,password);
+            session.save(user);
+            session.getTransaction().commit();
+            query=null;
+            query=session.createQuery("from User U where U.username= :username")
+                    .setString("username",userName);
+            users=query.list();
+            Iterator<?> i=users.iterator();
+            u=(User)users.get(0);
+        }
+        catch (HibernateException e)
+        {
+            Transaction tx = session.getTransaction();
+            if (tx.isActive()) tx.rollback();
+        }
+        catch (UserDAOException e){
             e.printStackTrace();
         }
-        finally {
-            if(session != null)
-                session.close();
+        finally
+        {
+            if(session!=null) session.close();
         }
-        return true;
+        return u;
     }
 }

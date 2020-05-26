@@ -7,13 +7,13 @@ import costsManagerHit.model.IExpenseDAO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
+import java.util.Arrays;
 
 public class ExpensesController {
 
-	public static void expenses(HttpServletRequest request, HttpServletResponse response, String data) throws ExpenseDAOException {
+	public void expenses(HttpServletRequest request, HttpServletResponse response, String data) throws ExpenseDAOException {
 		Expense[] expenses = ExpenseDAOHibernate.getInstance().getAll();
-		double sum=getExspensesSum(expenses);
+		double sum = getExspensesSum(expenses);
 		request.setAttribute("expenses", expenses);
 		request.setAttribute("sum",sum);
 	}
@@ -38,7 +38,6 @@ public class ExpensesController {
 		try {
 			IExpenseDAO iExpenseDAOHibernate = ExpenseDAOHibernate.getInstance();
 			iExpenseDAOHibernate.addExpense(expense);
-			expenses(request, response, data);
 		} catch (ExpenseDAOException e) {
 			e.printStackTrace();
 		}
@@ -46,7 +45,8 @@ public class ExpensesController {
 
 	private static double getExspensesSum(Expense[] expenses){
 		double sum=0.0;
-		for (Expense expense : expenses) sum += expense.getAmount();
+		for (Expense expense : expenses)
+			sum += expense.getAmount();
 		return sum;
 	}
 }

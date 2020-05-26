@@ -7,7 +7,7 @@
 
 <h1> INCORRECT URL PATH </h1>
 <br><br>
-<h1> TRY:    http://localhost:8010/CostsManagerHit/expenses </h1>
+<h1> TRY:    http://localhost:8010/CostsManagerHit/login </h1>
 
 </body>
 </html>

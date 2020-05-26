@@ -1,4 +1,4 @@
-// URL for example: http://localhost:8010/CostsManagerHit/expenses
+// URL for example: http://localhost:8010/CostsManagerHit/home
 
 package costsManagerHit.controller;
 
@@ -21,7 +21,7 @@ import java.util.Objects;
 @WebServlet(urlPatterns = {"/CostsManagerHit/*"})
 public class RouterServlet extends HttpServlet {
 
-	String[] existingControllersNames = {"Expenses", "Login", "Register", "PageNotFound"};
+	String[] existingControllersNames = {"Expenses", "Login", "Register", "PageNotFound", "Home"};
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -36,7 +36,6 @@ public class RouterServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		try {
 			response.setContentType("text/html");
 			String[] urlArray = request.getRequestURI().split("/");
@@ -70,10 +69,7 @@ public class RouterServlet extends HttpServlet {
 			method = myController.getMethod(action, HttpServletRequest.class, HttpServletResponse.class, String.class);
 			Boolean actionReturnValue = (Boolean) method.invoke(myController.newInstance(), request, response, id);
 
-
-			if (Objects.equals(action, "attemptLogin") && actionReturnValue)
-				viewName = "expenses";
-			else if(Objects.equals(action, "attemptRegister") && actionReturnValue)
+			if(Objects.equals(action, "attemptRegister") && actionReturnValue)
 				viewName="login";
 
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+viewName+".jsp");

@@ -31,6 +31,5 @@
     <orderEntry type="library" scope="PROVIDED" name="Tomcat 9.0.33" level="application_server_libraries" />
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
     <orderEntry type="library" name="Db" level="project" />
-    <orderEntry type="library" name="derbyclient" level="project" />
   </component>
 </module>

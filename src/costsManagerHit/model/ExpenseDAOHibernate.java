@@ -124,7 +124,6 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         }
         return expenses;
     }
-
     @Override
     public Expense[] getAll() {
         Expense[] expenses = null;
@@ -134,7 +133,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             session = factory.openSession();
             session.beginTransaction();
-            List<?> expensesList = session.createQuery("from Expense").list();
+            List<?> expensesList = session.createQuery("from Expense order by id desc").list();
 //            TODO return false instead of exception
             if(expensesList.size() == 0)
                 throw new ExpenseDAOException("There are no expenses yet");

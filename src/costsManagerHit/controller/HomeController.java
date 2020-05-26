@@ -19,9 +19,9 @@ public class HomeController {
     }
 
     private boolean appCookieExists(HttpServletRequest request) {
-        Cookie cookies[]= request.getCookies();
+        Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
-            if(cookie.getName() == "costsManager")
+            if(cookie.getName().equals("costsManager"))
                 return true;
         }
         return false;

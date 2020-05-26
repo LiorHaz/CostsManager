@@ -1,11 +1,9 @@
 package costsManagerHit.model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import org.hibernate.cfg.IndexOrUniqueKeySecondPass;
 
 public class TestClass {
     public static void main(String[] args) {
-        IExpenseDAO iExpenseDAOHibernate = null;
+        IExpenseDAO iExpenseDAOHibernate;
         IUserDAO iUserDAOHibernate;
         try {
             iExpenseDAOHibernate=ExpenseDAOHibernate.getInstance();

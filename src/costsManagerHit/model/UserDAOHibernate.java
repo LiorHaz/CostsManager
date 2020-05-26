@@ -4,12 +4,13 @@ import org.hibernate.*;
 import org.hibernate.cfg.AnnotationConfiguration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 
 public class UserDAOHibernate implements IUserDAO{
 
     private static IUserDAO instance;
-    private SessionFactory factory;
+    private final SessionFactory factory;
 
     private UserDAOHibernate() {
         factory = new AnnotationConfiguration().configure().buildSessionFactory();
@@ -42,7 +43,7 @@ public class UserDAOHibernate implements IUserDAO{
         }
         catch (HibernateException e)
         {
-            Transaction tx = session.getTransaction();
+            Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive()) tx.rollback();
         }
         catch (UserDAOException | ClassNotFoundException e){
@@ -79,7 +80,7 @@ public class UserDAOHibernate implements IUserDAO{
         }
         catch (HibernateException e)
         {
-            Transaction tx = session.getTransaction();
+            Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive()) tx.rollback();
         }
         catch (UserDAOException | ClassNotFoundException e){
@@ -109,7 +110,7 @@ public class UserDAOHibernate implements IUserDAO{
         }
         catch (HibernateException e)
         {
-            Transaction tx = session.getTransaction();
+            Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive()) tx.rollback();
         }
         finally

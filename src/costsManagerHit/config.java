@@ -1,5 +1,5 @@
 package costsManagerHit;
 
 public class config {
-    public static String CONTROLLERS_PACKAGE = "costsManagerHit.controller";
+    public static final String CONTROLLERS_PACKAGE = "costsManagerHit.controller";
 }

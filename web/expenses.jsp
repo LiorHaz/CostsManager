@@ -44,6 +44,7 @@
     %>
   </table>
   <br> <br>
+</body>
 
 <footer>
   <nav>

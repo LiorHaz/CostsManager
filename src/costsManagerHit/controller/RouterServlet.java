@@ -21,7 +21,7 @@ import java.util.Objects;
 @WebServlet(urlPatterns = {"/CostsManagerHit/*"})
 public class RouterServlet extends HttpServlet {
 
-	String[] existingControllersNames = {"Expenses", "Login", "Register", "PageNotFound", "Home"};
+	final String[] existingControllersNames = {"Expenses", "Login", "Register", "PageNotFound", "Home"};
 
 	/**
 	 * @see HttpServlet#HttpServlet()

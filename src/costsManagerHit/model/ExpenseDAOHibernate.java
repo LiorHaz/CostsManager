@@ -13,7 +13,7 @@ import java.util.Objects;
 public class ExpenseDAOHibernate implements IExpenseDAO {
 
     private static IExpenseDAO instance;
-    private SessionFactory factory;
+    private final SessionFactory factory;
 
     private ExpenseDAOHibernate() {
         factory = new AnnotationConfiguration().configure().buildSessionFactory();
@@ -27,7 +27,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
     }
 
     @Override
-    public boolean addExpense(Expense expense) {
+    public void addExpense(Expense expense) {
         Session session = null;
         try {
             session = factory.openSession();
@@ -45,7 +45,6 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
             if (session != null)
                 session.close();
         }
-        return true;
     }
 
     @Override

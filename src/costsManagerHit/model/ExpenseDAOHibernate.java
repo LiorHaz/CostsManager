@@ -134,9 +134,6 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
             session = factory.openSession();
             session.beginTransaction();
             List<?> expensesList = session.createQuery("from Expense order by id desc").list();
-//            TODO return false instead of exception
-            if(expensesList.size() == 0)
-                throw new ExpenseDAOException("There are no expenses yet");
             expenses = listToArray(expensesList);
         }
         catch (HibernateException | ExpenseDAOException | ClassNotFoundException e)

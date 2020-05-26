@@ -2,10 +2,9 @@ package costsManagerHit.model;
 
 import org.hibernate.*;
 import org.hibernate.cfg.AnnotationConfiguration;
-
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
+
 
 public class UserDAOHibernate implements IUserDAO{
 

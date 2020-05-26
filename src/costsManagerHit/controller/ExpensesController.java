@@ -7,7 +7,7 @@ import costsManagerHit.model.IExpenseDAO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
+import java.util.Map;
 
 public class ExpensesController {
 
@@ -46,7 +46,7 @@ public class ExpensesController {
 
 	private static double getExspensesSum(Expense[] expenses){
 		double sum=0.0;
-		for (Expense expens : expenses) sum += expens.getAmount();
+		for (Expense expense : expenses) sum += expense.getAmount();
 		return sum;
 	}
 }

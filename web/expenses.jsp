@@ -1,4 +1,5 @@
 <%@ page import="costsManagerHit.model.Expense" %>
+<%@ page import="costsManagerHit.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -18,6 +19,16 @@
       <td>Month</td>
     </tr>
     <%
+      HttpServletResponse httpResponse = (HttpServletResponse)response;
+      httpResponse.setHeader("Cache-Control","no-cache, no-store, must-revalidate");
+      response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+      httpResponse.setHeader("Pragma","no-cache");
+      httpResponse.setDateHeader ("Expires", 0);
+      if (session.getAttribute("user")==null) {
+        response.sendRedirect("/pageNotFound.jsp");
+        System.out.println("page not found!");
+        return;
+      }
       Expense[] expenses = (Expense[])(request.getAttribute("expenses"));
 
       for (Expense currentExpense : expenses)

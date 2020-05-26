@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
 
     public void login(HttpServletRequest request, HttpServletResponse response, String data) {
-        System.out.println("login in login controller");
+        //System.out.println("login in login controller");
     }
 
     public boolean attemptLogin(HttpServletRequest request, HttpServletResponse response, String data) {
@@ -33,7 +33,7 @@ public class LoginController {
     }
 
     public void logOut(HttpServletRequest request, HttpServletResponse response, String data) {
-        System.out.println("logOut in login controller");
+       request.getSession().setAttribute("user",null);
     }
 
 }

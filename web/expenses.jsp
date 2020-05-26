@@ -49,7 +49,7 @@
   <nav>
     <ul>
       <li>
-        <a href="http://localhost:8010/CostsManagerHit/login/attemptLogin">Add Expense</a>
+        <a href="http://localhost:8010/CostsManagerHit/home">Add Expense</a>
       </li>
       <li>
         <a href="http://localhost:8010/CostsManagerHit/expenses">Show All Expenses</a>

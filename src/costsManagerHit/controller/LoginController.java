@@ -16,7 +16,7 @@ public class LoginController {
         String password = request.getParameter("password");
         try {
             IUserDAO iUserDAOHibernate = UserDAOHibernate.getInstance();
-            User user=iUserDAOHibernate.validateUser(userName, password);
+            User user=iUserDAOHibernate.validateUserAndPassword(userName, password);
             //The user logged in successfully
             if (user!=null)
             {   //set reference of the current user for this session

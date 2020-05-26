@@ -13,7 +13,7 @@
     <br> <br>
     User Name: <input type="text" name="userName" required/>
     <br> <br>
-    Password: <input type="text" name="password" required/>
+    Password: <input type="password" name="password" required/>
     <br> <br>
     <input type="submit" value="Register"/>
 </form>

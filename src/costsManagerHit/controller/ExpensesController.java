@@ -13,7 +13,9 @@ public class ExpensesController {
 
 	public static void expenses(HttpServletRequest request, HttpServletResponse response, String data) throws ExpenseDAOException {
 		Expense[] expenses = ExpenseDAOHibernate.getInstance().getAll();
+		double sum=getExspensesSum(expenses);
 		request.setAttribute("expenses", expenses);
+		request.setAttribute("sum",sum);
 	}
 
 	public void expense(HttpServletRequest request, HttpServletResponse response, String data) {
@@ -21,7 +23,6 @@ public class ExpensesController {
 	}
 
 	public void addExpense(HttpServletRequest request, HttpServletResponse response, String data) {
-//		TODO check if parameters are legit
 		String type = request.getParameter("expenseType");
 		String month = request.getParameter("expenseMonth");
 		String description = request.getParameter("expenseDescription");
@@ -35,5 +36,11 @@ public class ExpensesController {
 		} catch (ExpenseDAOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static double getExspensesSum(Expense[] expenses){
+		double sum=0.0;
+		for (Expense expens : expenses) sum += expens.getAmount();
+		return sum;
 	}
 }

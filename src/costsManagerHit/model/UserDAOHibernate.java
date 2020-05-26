@@ -24,7 +24,7 @@ public class UserDAOHibernate implements IUserDAO{
     }
 
     @Override
-    public User validateUser(String userName,String password) throws UserDAOException {
+    public User validateUserAndPassword(String userName,String password) throws UserDAOException {
         Session session = null;
         User u=null;
         try
@@ -64,20 +64,17 @@ public class UserDAOHibernate implements IUserDAO{
         {
             session = factory.openSession();
             session.beginTransaction();
-            //Checks if the user exists before adding him
-            Query query=session.createQuery("FROM User U WHERE U.username = :username")
-                    .setString("username",userName);
-            List<?> users = query.list();
-            if(users.size()!=0)//The user exists - return null
+
+            if(!validateUserName(userName))
                 throw new UserDAOException("Username '" + userName +"' already exists - try another username");
+
             //Saves the user in database and returning him with id for the session object
             User user=new User(userName,password);
             session.save(user);
             session.getTransaction().commit();
-            query=null;
-            query=session.createQuery("from User U where U.username= :username")
+            Query query=session.createQuery("from User U where U.username= :username")
                     .setString("username",userName);
-            users=query.list();
+            List<?> users=query.list();
             Iterator<?> i=users.iterator();
             u=(User)users.get(0);
         }
@@ -94,5 +91,32 @@ public class UserDAOHibernate implements IUserDAO{
             if(session!=null) session.close();
         }
         return u;
+    }
+
+    @Override
+    public boolean validateUserName(String userName) throws UserDAOException {
+        Session session = null;
+        try
+        {
+            session = factory.openSession();
+            session.beginTransaction();
+
+            //Checks if the user exists before adding him
+            Query query=session.createQuery("FROM User U WHERE U.username = :username")
+                    .setString("username",userName);
+            List<?> users = query.list();
+            if(users.size()!=0)//The user exists - return null
+                return false;
+        }
+        catch (HibernateException e)
+        {
+            Transaction tx = session.getTransaction();
+            if (tx.isActive()) tx.rollback();
+        }
+        finally
+        {
+            if(session!=null) session.close();
+        }
+        return true;
     }
 }

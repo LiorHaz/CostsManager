@@ -56,26 +56,26 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         {
             session = factory.openSession();
             session.beginTransaction();
-//            TODO finish this part has errors
-//            Query query = session.createQuery(" FROM Expense E WHERE E.month= :month and E.userId= :userId");
-//            query.setString("month",month).setInteger("userId",userId);
-//            List expenses1 =query.list();
-//            if(expenses1.size()==0)
-//                throw new ExpenseDAOException("There are no expenses in "+month);
-//            expenses = new Expense[expenses1.size()];
-//            Iterator i = expenses1.iterator();
-//            int j=0;
-//            while(i.hasNext()) {
-//                expenses[j] = (Expense) i.next();
-//                j++;
-//            }
+            Query query = session.createQuery(" FROM Expense E WHERE E.month= :month and E.userId= :userId");
+            query.setString("month",month).setInteger("userId",userId);
+            List<?> expenses1 =query.list();
+            if(expenses1.size()==0)
+                throw new ExpenseDAOException("There are no expenses in "+month);
+            expenses = new Expense[expenses1.size()];
+            Iterator<?> i = expenses1.iterator();
+            int j=0;
+            while(i.hasNext()) {
+                expenses[j] = (Expense) i.next();
+                j++;
+            }
         }
         catch (HibernateException e)
         {
             Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive()) tx.rollback();
-        }
-        finally {
+        } catch (ExpenseDAOException e) {
+            e.printStackTrace();
+        } finally {
             if (session != null) session.close();
         }
         return expenses;

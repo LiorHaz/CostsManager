@@ -18,10 +18,10 @@ public class LoginController {
             IUserDAO iUserDAOHibernate = UserDAOHibernate.getInstance();
             User user=iUserDAOHibernate.validateUserAndPassword(userName, password);
             //The user logged in successfully
-            if (user!=null)
+            if (user != null)
             {   //set reference of the current user for this session
                 request.getSession().setAttribute("user",user);
-                ExpensesController.expenses(request, response, data);
+                ExpensesController.setAttributeLastThreeExpenses(request, response, data);
                 return true;
             }
             else //An indicator for unsuccessful login

@@ -2,8 +2,6 @@
 
 package costsManagerHit.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -19,7 +19,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         factory = new AnnotationConfiguration().configure().buildSessionFactory();
     }
 
-    public static IExpenseDAO getInstance() {
+    public static IExpenseDAO getInstance() throws ExpenseDAOException{
         if(instance==null){
             instance= new ExpenseDAOHibernate();
         }
@@ -83,7 +83,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
 
     @Override
     public Expense[] getExpensesBySearch(String type, String month, String description, double minAmount,
-                                         double maxAmount, int userId) {
+                                         double maxAmount, int userId) throws ExpenseDAOException {
         Expense[] expenses =null;
         Session session = null;
         try
@@ -135,15 +135,10 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
             session = factory.openSession();
             session.beginTransaction();
             List<?> expensesList = session.createQuery("from Expense").list();
+//            TODO return false instead of exception
             if(expensesList.size() == 0)
                 throw new ExpenseDAOException("There are no expenses yet");
-            expenses = new Expense[expensesList.size()];
-            Iterator<?> i = expensesList.iterator();
-            int j=0;
-            while(i.hasNext()) {
-                expenses[j] = (Expense) i.next();
-                j++;
-            }
+            expenses = listToArray(expensesList);
         }
         catch (HibernateException | ExpenseDAOException | ClassNotFoundException e)
         {
@@ -155,6 +150,17 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         finally {
             if (session != null)
                 session.close();
+        }
+        return expenses;
+    }
+
+    private Expense[] listToArray(List<?> expensesList) throws ExpenseDAOException {
+        Expense[] expenses = new Expense[expensesList.size()];
+        Iterator<?> i = expensesList.iterator();
+        int j=0;
+        while(i.hasNext()) {
+            expenses[j] = (Expense) i.next();
+            j++;
         }
         return expenses;
     }

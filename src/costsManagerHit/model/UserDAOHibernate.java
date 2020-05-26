@@ -26,10 +26,10 @@ public class UserDAOHibernate implements IUserDAO{
     @Override
     public User validateUserAndPassword(String userName,String password) throws UserDAOException {
         Session session = null;
-        User u=null;
-        try
-        {
+        User u = null;
+        try {
             session = factory.openSession();
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
             session.beginTransaction();
             //Checks if the user exists or details are valid
             Query query=session.createQuery("FROM User U WHERE U.username = :username and U.password= :password")
@@ -39,14 +39,14 @@ public class UserDAOHibernate implements IUserDAO{
             if(users.size()==0)//The user does not exists or wrong password - return null
                 throw new UserDAOException("Username '" + userName +"' is not valid or wrong password");
             //The user exists - return him
-            u=(User)users.get(0);
+            u = (User)users.get(0);
         }
         catch (HibernateException e)
         {
             Transaction tx = session.getTransaction();
             if (tx.isActive()) tx.rollback();
         }
-        catch (UserDAOException e){
+        catch (UserDAOException | ClassNotFoundException e){
             e.printStackTrace();
         }
         finally
@@ -59,10 +59,10 @@ public class UserDAOHibernate implements IUserDAO{
     @Override
     public User addUser(String userName,String password) throws UserDAOException {
         Session session = null;
-        User u=null;
-        try
-        {
+        User u = null;
+        try {
             session = factory.openSession();
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
             session.beginTransaction();
 
             if(!validateUserName(userName))
@@ -83,7 +83,7 @@ public class UserDAOHibernate implements IUserDAO{
             Transaction tx = session.getTransaction();
             if (tx.isActive()) tx.rollback();
         }
-        catch (UserDAOException e){
+        catch (UserDAOException | ClassNotFoundException e){
             e.printStackTrace();
         }
         finally

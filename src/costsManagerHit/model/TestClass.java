@@ -7,9 +7,9 @@ public class TestClass {
     public static void main(String[] args) {
         IExpenseDAO iExpenseDAOHibernate = null;
         IUserDAO iUserDAOHibernate;
-//        try {
-//            iExpenseDAOHibernate=ExpenseDAOHibernate.getInstance();
-//            iExpenseDAOHibernate.addExpense(new Expense(49.90,"321","Buying T-shirt","February",1));
+        try {
+            iExpenseDAOHibernate=ExpenseDAOHibernate.getInstance();
+            iExpenseDAOHibernate.addExpense(new Expense(49.90,"321","Buying T-shirt","February",1));
 //            iExpenseDAOHibernate.addExpense(new Expense(349.90,"Car","Buying fuel","February",1));
 //            Expense[] expenses=iExpenseDAOHibernate.getExpensesBySearch("Car","January","",200,453.56,1);
 //            Expense[] expenses = iExpenseDAOHibernate.getAll();
@@ -27,8 +27,8 @@ public class TestClass {
 //            User user=iUserDAOHibernate.validateUser("tony","1234");
 //            if(user!=null)
 //                System.out.println(user.toString());
-//        } catch (ExpenseDAOException | UserDAOException e) {
-//            e.printStackTrace();
-//        }
+        } catch (ExpenseDAOException e) {
+            e.printStackTrace();
+        }
     }
 }

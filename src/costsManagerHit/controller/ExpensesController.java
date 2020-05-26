@@ -7,7 +7,7 @@ import costsManagerHit.model.IExpenseDAO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
+import java.util.Arrays;
 
 public class ExpensesController {
 
@@ -16,6 +16,12 @@ public class ExpensesController {
 		double sum=getExspensesSum(expenses);
 		request.setAttribute("expenses", expenses);
 		request.setAttribute("sum",sum);
+	}
+
+	public static void setAttributeLastThreeExpenses(HttpServletRequest request, HttpServletResponse response, String data) throws ExpenseDAOException {
+		Expense[] allExpenses = ExpenseDAOHibernate.getInstance().getAll();
+		Expense[] lastThreeExpenses = Arrays.copyOfRange(allExpenses, 0, 3);
+		request.setAttribute("expenses", lastThreeExpenses);
 	}
 
 	public void expense(HttpServletRequest request, HttpServletResponse response, String data) {

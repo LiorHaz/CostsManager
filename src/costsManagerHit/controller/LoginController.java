@@ -9,11 +9,7 @@ import java.io.IOException;
 
 public class LoginController {
 
-    public void login(HttpServletRequest request, HttpServletResponse response, String data) throws IOException {
-        if (appCookieExists(request))
-        {
-            response.sendRedirect("http://localhost:8010/CostsManagerHit/home");
-        }
+    public void login(HttpServletRequest request, HttpServletResponse response, String data) {
     }
 
     public boolean attemptLogin(HttpServletRequest request, HttpServletResponse response, String data) {

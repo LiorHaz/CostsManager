@@ -24,6 +24,18 @@ public class ExpensesController {
 		request.setAttribute("expenses", lastThreeExpenses);
 	}
 
+	public void filterByMonth(HttpServletRequest request, HttpServletResponse response, String data) {
+		String filteredMonth = request.getParameter("filteredMonth");
+		try {
+			Expense[] expenses = ExpenseDAOHibernate.getInstance().getExpensesByMonth(filteredMonth, 1);
+			double sum = getExspensesSum(expenses);
+			request.setAttribute("expenses", expenses);
+			request.setAttribute("sum",sum);
+		} catch (ExpenseDAOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void expense(HttpServletRequest request, HttpServletResponse response, String data) {
 		System.out.println("expense in expenses controller");
 	}

@@ -48,7 +48,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
     }
 
     @Override
-    public Expense[] getExpensesByMonth(String month, int userId) {
+    public Expense[] getExpensesByMonth(String month, int userId) throws ExpenseDAOException {
         Expense[] expenses =null;
         Session session = null;
         try
@@ -57,23 +57,13 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
             session.beginTransaction();
             Query query = session.createQuery(" FROM Expense E WHERE E.month= :month and E.userId= :userId");
             query.setString("month",month).setInteger("userId",userId);
-            List<?> expenses1 =query.list();
-            if(expenses1.size()==0)
-                throw new ExpenseDAOException("There are no expenses in "+month);
-            expenses = new Expense[expenses1.size()];
-            Iterator<?> i = expenses1.iterator();
-            int j=0;
-            while(i.hasNext()) {
-                expenses[j] = (Expense) i.next();
-                j++;
-            }
+            List<?> expensesList =query.list();
+            expenses = listToArray(expensesList);
         }
         catch (HibernateException e)
         {
             Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive()) tx.rollback();
-        } catch (ExpenseDAOException e) {
-            e.printStackTrace();
         } finally {
             if (session != null) session.close();
         }
@@ -135,7 +125,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
             List<?> expensesList = session.createQuery("from Expense order by id desc").list();
             expenses = listToArray(expensesList);
         }
-        catch (HibernateException | ExpenseDAOException | ClassNotFoundException e)
+        catch (HibernateException | ClassNotFoundException e)
         {
             Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive())
@@ -149,7 +139,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         return expenses;
     }
 
-    private Expense[] listToArray(List<?> expensesList) throws ExpenseDAOException {
+    private Expense[] listToArray(List<?> expensesList) {
         Expense[] expenses = new Expense[expensesList.size()];
         Iterator<?> i = expensesList.iterator();
         int j=0;

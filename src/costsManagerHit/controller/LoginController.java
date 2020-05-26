@@ -24,10 +24,8 @@ public class LoginController {
             User user = iUserDAOHibernate.validateUserAndPassword(userName, password);
             if (user != null)
             {
-//                TODO insert into cookie the user ID fix the cookie issue
-                Cookie appCookie = new Cookie("costsManager", "1");
-                appCookie.setMaxAge(99999);
-                response.addCookie(appCookie);
+//                TODO fix the cookie issue
+                createLoginCookie(response);
                 request.getSession().setAttribute("user",user);
                 response.sendRedirect("http://localhost:8010/CostsManagerHit/home");
                 return true;
@@ -40,15 +38,21 @@ public class LoginController {
         return false;
     }
 
+    private void createLoginCookie(HttpServletResponse response) {
+        Cookie appCookie = new Cookie("costsManager", "1");
+        appCookie.setMaxAge(99999);
+        response.addCookie(appCookie);
+    }
+
     public void logOut(HttpServletRequest request, HttpServletResponse response, String data) {
        request.getSession().setAttribute("user",null);
     }
 
     private boolean appCookieExists(HttpServletRequest request) {
-        Cookie cookies[]= request.getCookies();
+        Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if(cookie.getName() == "costsManager")
+                if(cookie.getName().equals("costsManager"))
                     return true;
             }
         }

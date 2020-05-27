@@ -7,7 +7,7 @@
       com.mysql.jdbc.Driver
     </property>
     <property name="hibernate.connection.url">
-      jdbc:derby://localhost:1527/lior
+      jdbc:mysql://localhost:3306/lior
     </property>
     <property name="hibernate.connection.username">lior</property>
     <property name="hibernate.connection.password">243913634</property>

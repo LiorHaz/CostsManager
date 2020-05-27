@@ -2,6 +2,8 @@ package costsManagerHit.controller;
 
 import costsManagerHit.model.*;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,15 +22,15 @@ public class LoginController {
             User user = iUserDAOHibernate.validateUserAndPassword(userName, password);
             if (user != null)
             {
-//                TODO fix the cookie issue
-                createLoginCookie(response);
-                request.getSession().setAttribute("user",user);
-                response.sendRedirect("http://localhost:8010/CostsManagerHit/home");
+                request.getSession().setAttribute("user", user);
+                String forwardUrl = "/CostsManagerHit/home/home/" + user.getId();
+                RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher(forwardUrl);
+                dispatcher.forward(request, response);
                 return true;
             }
             else
                 request.setAttribute("isSuccessfullyLoggedIn",false);
-        } catch (UserDAOException | IOException e) {
+        } catch (UserDAOException | IOException | ServletException e) {
             e.printStackTrace();
         }
         return false;

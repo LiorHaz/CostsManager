@@ -44,6 +44,27 @@
     %>
   </table>
   <br> <br>
+  <form method="post" action="http://localhost:8010/CostsManagerHit/expenses/filterByMonth">
+    <label for="filteredMonth">Filter by month: </label>
+    <select id="filteredMonth" name="filteredMonth">
+      <option value="January">January</option>
+      <option value="February">February</option>
+      <option value="March">March</option>
+      <option value="April">April</option>
+      <option value="May">May</option>
+      <option value="June">June</option>
+      <option value="July">July</option>
+      <option value="August">August</option>
+      <option value="September">September</option>
+      <option value="October">October</option>
+      <option value="November">November</option>
+      <option value="December">December</option>
+    </select>
+    <input type="submit" value="Filter"/>
+  </form>
+  <form method="post" action="http://localhost:8010/CostsManagerHit/expenses">
+    <input type="submit" value="Get All"/>
+  </form>
 </body>
 
 <footer>

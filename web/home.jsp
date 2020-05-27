@@ -5,7 +5,7 @@
 <head>
     <%
         if (session.getAttribute("user") == null) {
-            response.sendRedirect("http://localhost:8010/CostsManagerHit/pageNotFound");
+            response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
             return;
         }
     %>

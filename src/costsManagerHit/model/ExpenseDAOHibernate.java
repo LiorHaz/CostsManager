@@ -48,7 +48,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
     }
 
     @Override
-    public Expense[] getExpensesByMonth(String month, int userId) throws ExpenseDAOException {
+    public Expense[] getUserExpensesByMonth(String month, int userId) throws ExpenseDAOException {
         Expense[] expenses =null;
         Session session = null;
         try
@@ -57,7 +57,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
             session.beginTransaction();
             Query query = session.createQuery(" FROM Expense E WHERE E.month= :month and E.userId= :userId");
             query.setString("month",month).setInteger("userId",userId);
-            List<?> expensesList =query.list();
+            List<?> expensesList = query.list();
             expenses = listToArray(expensesList);
         }
         catch (HibernateException e)
@@ -146,6 +146,34 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         while(i.hasNext()) {
             expenses[j] = (Expense) i.next();
             j++;
+        }
+        return expenses;
+    }
+
+    public Expense[] getUserExpenses(int id) {
+        Expense[] expenses = null;
+        Session session = null;
+        try
+        {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            session = factory.openSession();
+            session.beginTransaction();
+//            TODO split to smaller function
+            Query query = session.createQuery("FROM Expense E WHERE E.id= :id order by id desc");
+            query.setString("id", String.valueOf(id));
+            List<?> expensesList = query.list();
+            expenses = listToArray(expensesList);
+        }
+        catch (HibernateException | ClassNotFoundException e)
+        {
+            Transaction tx = Objects.requireNonNull(session).getTransaction();
+            if (tx.isActive())
+                tx.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            if (session != null)
+                session.close();
         }
         return expenses;
     }

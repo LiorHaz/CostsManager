@@ -80,9 +80,15 @@
     else
       out.print("<h2>Your Last Three Expenses:</h2>");
   }
-  else
-    out.print("<h2>Your Expenses:</h2>");
-
+  else {
+    Boolean isAddedSuccessfully=(Boolean)request.getAttribute("addedSuccessfully");
+    if(isAddedSuccessfully!=null){
+      if(isAddedSuccessfully)
+        out.print("<h2>Your Last Three Expenses:</h2>");
+    }
+    else
+      out.print("<h2>Your Expenses:</h2>");
+  }
   Cookie[] cookies = request.getCookies();
 
   Expense[] expenses = (Expense[])(request.getAttribute("expenses"));

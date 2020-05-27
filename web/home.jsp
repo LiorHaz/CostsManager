@@ -47,7 +47,7 @@
 
     <br> <br>
     <h2>Add an Expense</h2>
-    <form method="post" action="http://localhost:8010/CostsManagerHit/home/addExpense">
+    <form method="post" action="http://localhost:8010/CostsManagerHit/expenses/addExpense">
         <label for="expenseType">Choose a type: </label>
         <select id="expenseType" name="expenseType">
             <option value="general">General</option>

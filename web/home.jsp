@@ -3,19 +3,18 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
-    <%
-        if (session.getAttribute("user") == null) {
-            response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
-            return;
-        }
-    %>
-
     <link rel="stylesheet" type="text/css" href="/css/common.css">
     <link rel="stylesheet" type="text/css" href="/css/expenses.css">
     <title>Main Page</title>
 </head>
 
 <body>
+    <%
+        if (session.getAttribute("user") == null) {
+            response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
+            return;
+        }
+    %>
     <h2>Last Three Expenses:</h2>
     <table>
         <tr>
@@ -52,7 +51,7 @@
 
     <br> <br>
     <h2>Add an Expense</h2>
-    <form method="post" action="http://localhost:8010/CostsManagerHit/expenses/addExpense">
+    <form method="post" action="http://localhost:8010/CostsManagerHit/home/addExpense">
         <label for="expenseType">Choose a type: </label>
         <select id="expenseType" name="expenseType">
             <option value="general">general</option>

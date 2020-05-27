@@ -1,50 +1,39 @@
 package costsManagerHit.controller;
 
-import costsManagerHit.model.Expense;
-import costsManagerHit.model.ExpenseDAOException;
-import costsManagerHit.model.ExpenseDAOHibernate;
-import costsManagerHit.model.IExpenseDAO;
+import costsManagerHit.model.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class ExpensesController {
 
-	public void expenses(HttpServletRequest request, HttpServletResponse response, String data) throws ExpenseDAOException {
-		Expense[] expenses = ExpenseDAOHibernate.getInstance().getAll();
+	public boolean expenses(HttpServletRequest request, HttpServletResponse response, String data) throws ExpenseDAOException {
+		User user = (User) request.getSession(false).getAttribute("user");
+		Expense[] expenses = ExpenseDAOHibernate.getInstance().getUserExpenses(user.getId());
 		double sum = getExpensesSum(expenses);
 		request.setAttribute("expenses", expenses);
 		request.setAttribute("sum",sum);
+		return true;
 	}
 
-	public void filterByMonth(HttpServletRequest request, HttpServletResponse response, String data) {
+	public boolean filterByMonth(HttpServletRequest request, HttpServletResponse response, String data) {
+		User user = (User) request.getSession(false).getAttribute("user");
 		String filteredMonth = request.getParameter("filteredMonth");
 		try {
-			Expense[] expenses = ExpenseDAOHibernate.getInstance().getUserExpensesByMonth(filteredMonth, 1);
+			Expense[] expenses = ExpenseDAOHibernate.getInstance().getUserExpensesByMonth(filteredMonth, user.getId());
 			double sum = getExpensesSum(expenses);
 			request.setAttribute("expenses", expenses);
 			request.setAttribute("sum",sum);
+			return true;
 		} catch (ExpenseDAOException e) {
 			e.printStackTrace();
 		}
+		return true;
 	}
 
 	public void expense(HttpServletRequest request, HttpServletResponse response, String data) {
-	}
-
-	public void addExpense(HttpServletRequest request, HttpServletResponse response, String data) {
-		String type = request.getParameter("expenseType");
-		String month = request.getParameter("expenseMonth");
-		String description = request.getParameter("expenseDescription");
-		double amount = Double.parseDouble(request.getParameter("expenseAmount"));
-		Expense expense = new Expense(amount, type, description, month, 1);
-
-		try {
-			IExpenseDAO iExpenseDAOHibernate = ExpenseDAOHibernate.getInstance();
-			iExpenseDAOHibernate.addExpense(expense);
-		} catch (ExpenseDAOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	private static double getExpensesSum(Expense[] expenses){

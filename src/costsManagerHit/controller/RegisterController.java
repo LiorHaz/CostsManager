@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RegisterController {
 
-    public void register(HttpServletRequest request, HttpServletResponse response, String data) {
-
+    public boolean register(HttpServletRequest request, HttpServletResponse response, String data) {
+        return true;
     }
 
     public boolean attemptRegister(HttpServletRequest request, HttpServletResponse response, String data) {

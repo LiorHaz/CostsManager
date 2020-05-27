@@ -1,4 +1,4 @@
-// URL for example: http://localhost:8010/CostsManagerHit/home
+// URL for example: http://localhost:8010/CostsManagerHit/login
 
 package costsManagerHit.controller;
 

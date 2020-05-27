@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ExpensesController {
 
 	public void expenses(HttpServletRequest request, HttpServletResponse response, String data) throws ExpenseDAOException {
-		User user=(User)request.getSession().getAttribute("user");
+		User user = (User)request.getSession().getAttribute("user");
 		Expense[] expenses = ExpenseDAOHibernate.getInstance().getUserExpenses(user.getId());
 		request.setAttribute("expenses", expenses);
 		request.setAttribute("allExpenses",true);
@@ -54,7 +54,7 @@ public class ExpensesController {
 		String month = request.getParameter("expenseMonth");
 		String description = request.getParameter("expenseDescription");
 		double amount = Double.parseDouble(request.getParameter("expenseAmount"));
-		User user=(User)request.getSession().getAttribute("user");
+		User user = (User)request.getSession().getAttribute("user");
 		Expense expense = new Expense(amount, type, description, month, user.getId());
 
 		try {

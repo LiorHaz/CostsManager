@@ -9,12 +9,6 @@
 </head>
 
 <body>
-    <%
-        if (session.getAttribute("user") == null) {
-            response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
-            return;
-        }
-    %>
     <h2>Your Last Three Expenses:</h2>
     <table>
         <tr>

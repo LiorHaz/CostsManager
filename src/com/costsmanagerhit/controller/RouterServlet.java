@@ -1,6 +1,6 @@
 // URL for example: http://localhost:8010/CostsManagerHit/home
 
-package costsManagerHit.controller;
+package com.costsmanagerhit.controller;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
 
-
+//TODO:Clean and organize the code in the servlet Roni!
 /**
  * Servlet implementation class RouterServlet
  */
@@ -72,7 +72,7 @@ public class RouterServlet extends HttpServlet {
 			if(Objects.equals(action, "attemptRegister") && actionReturnValue)
 				viewName="login";
 
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+viewName+".jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/view/"+viewName+".jsp");
 			dispatcher.include(request,response);
 
 		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -82,7 +82,7 @@ public class RouterServlet extends HttpServlet {
 	}
 
 	private String getControllerClassFullPath(String controllerName) {
-		return costsManagerHit.config.CONTROLLERS_PACKAGE + "." + controllerName + "Controller";
+		return com.costsmanagerhit.config.CONTROLLERS_PACKAGE + "." + controllerName + "Controller";
 	}
 
 	/**

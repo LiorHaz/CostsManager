@@ -1,4 +1,4 @@
-package costsManagerHit.model;
+package com.costsmanagerhit.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -1,4 +1,4 @@
-<%@ page import="costsManagerHit.model.Expense" %>
+<%@ page import="com.costsmanagerhit.model.Expense" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -8,8 +8,6 @@
 </head>
 
 <body>
-<%--<form method="post" action="http://localhost:8010/CostsManagerHit/expenses">
-  <input type="submit" value="Get All"/>--%>
 </form>
 <h3>Filter by month</h3>
 <form method="post" action="http://localhost:8010/CostsManagerHit/expenses/filterByMonth">
@@ -68,44 +66,31 @@
 </form>
 
 <%
-  if(request.getAttribute("addedSuccessfully")!=null){
+  if(request.getAttribute("addedSuccessfully")!=null) {
     out.println("Expense was added successfully!");
-    request.removeAttribute("addedSuccessfully");
+    out.print("<h2>Your Last Three Expenses:</h2>");
   }
+  else
+    out.print("<h2>Your Expenses:</h2>");
 
-  Boolean areAllExpenses=(Boolean)request.getAttribute("allExpenses");
-  if(areAllExpenses!=null) {
-    if (areAllExpenses)
-      out.print("<h2>Your Expenses:</h2>");
-    else
-      out.print("<h2>Your Last Three Expenses:</h2>");
-  }
-  else {
-    Boolean isAddedSuccessfully=(Boolean)request.getAttribute("addedSuccessfully");
-    if(isAddedSuccessfully!=null){
-      if(isAddedSuccessfully)
-        out.print("<h2>Your Last Three Expenses:</h2>");
-    }
-    else
-      out.print("<h2>Your Expenses:</h2>");
-  }
   Cookie[] cookies = request.getCookies();
 
   Expense[] expenses = (Expense[])(request.getAttribute("expenses"));
   if(expenses!=null){
-    out.print("<table>\n" +
-            "  <tr>\n" +
-            "    <td>Type</td>\n" +
-            "    <td>Price</td>\n" +
-            "    <td>Description</td>\n" +
-            "    <td>Month</td>\n" +
-            "  </tr>");
-    for (Expense currentExpense : expenses)
-    {
-      String type = currentExpense.getType();
-      double amount = currentExpense.getAmount();
-      String description = currentExpense.getDescription();
-      String month = currentExpense.getMonth();
+    if(expenses.length>0){
+      out.print("<table>\n" +
+              "  <tr>\n" +
+              "    <td>Type</td>\n" +
+              "    <td>Price</td>\n" +
+              "    <td>Description</td>\n" +
+              "    <td>Month</td>\n" +
+              "  </tr>");
+      for (Expense currentExpense : expenses)
+      {
+        String type = currentExpense.getType();
+        double amount = currentExpense.getAmount();
+        String description = currentExpense.getDescription();
+        String month = currentExpense.getMonth();
 %>
 <tr>
   <td><%= type %></td>
@@ -114,20 +99,21 @@
   <td><%= month %></td>
 </tr>
 <%
+      }
+      out.print("</table>");
     }
-    out.print("</table>");
   }
   else
-    out.println("There are no expenses which match to your search");
+    out.println("<h4>There are no expenses which match to your search</h4>");
 
   if(request.getAttribute("month")!=null) {
-    out.print("<br> <br>");
     String month = (String) request.getAttribute("month");
     if (expenses.length == 0)
-      out.print("There are no Expenses for " + month);
+      out.print("<h4>There are no Expenses for " + month+"</h4>");
     else {
+      out.print("<br>");
       double sum=(double)request.getAttribute("sum");
-      out.println("Total for " + month + ": " +(Math.round(sum * 10) / 10.0)+" $");
+      out.println("<h3>Total for " + month + ": " +(Math.round(sum * 10) / 10.0)+" $</h3>");
     }
   }
 %>

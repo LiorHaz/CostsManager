@@ -1,5 +1,5 @@
-<%@ page import="costsManagerHit.model.Expense" %>
-<%@ page import="costsManagerHit.model.User" %>
+<%@ page import="com.costsmanagerhit.model.Expense" %>
+<%@ page import="com.costsmanagerhit.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -10,9 +10,9 @@
 
 <body>
     <%
-        if (session.getAttribute("user") == null) {
-            response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
-            return;
+        User user = (User) session.getAttribute("user");
+        if(user!=null){
+            out.println("<h1>Welcome, "+user.getUsername()+"!</h1>");
         }
     %>
     <h2>Your Last Three Expenses:</h2>

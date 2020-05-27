@@ -1,4 +1,4 @@
-package costsManagerHit.model;
+package com.costsmanagerhit.model;
 
 
 public class TestClass {

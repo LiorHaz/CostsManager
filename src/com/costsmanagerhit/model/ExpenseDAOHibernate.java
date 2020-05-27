@@ -1,4 +1,4 @@
-package costsManagerHit.model;
+package com.costsmanagerhit.model;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -19,6 +19,11 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         factory = new AnnotationConfiguration().configure().buildSessionFactory();
     }
 
+    /**
+     *
+     * @return Instance of this object - singleton
+     * @throws ExpenseDAOException in case of error
+     */
     public static IExpenseDAO getInstance() throws ExpenseDAOException{
         if(instance==null){
             instance= new ExpenseDAOHibernate();
@@ -71,8 +76,8 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
     }
 
     @Override
-    public Expense[] getExpensesBySearch(String type, String month, String description, double minAmount,
-                                         double maxAmount, int userId) throws ExpenseDAOException {
+    public Expense[] getUserExpensesBySearch(String type, String month, String description, double minAmount,
+                                         double maxAmount, int userId)  {
         Expense[] expenses =null;
         Session session = null;
         try
@@ -113,32 +118,12 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         }
         return expenses;
     }
-    @Override
-    public Expense[] getAll() {
-        Expense[] expenses = null;
-        Session session = null;
-        try
-        {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            session = factory.openSession();
-            session.beginTransaction();
-            List<?> expensesList = session.createQuery("from Expense order by id desc").list();
-            expenses = listToArray(expensesList);
-        }
-        catch (HibernateException | ClassNotFoundException e)
-        {
-            Transaction tx = Objects.requireNonNull(session).getTransaction();
-            if (tx.isActive())
-                tx.rollback();
-            e.printStackTrace();
-        }
-        finally {
-            if (session != null)
-                session.close();
-        }
-        return expenses;
-    }
 
+    /**
+     *
+     * @param expensesList casting from expenses list raw type to expenses array
+     * @return the expenses as array
+     */
     private Expense[] listToArray(List<?> expensesList) {
         Expense[] expenses = new Expense[expensesList.size()];
         Iterator<?> i = expensesList.iterator();

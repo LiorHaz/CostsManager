@@ -1,4 +1,4 @@
-package costsManagerHit.model;
+package com.costsmanagerhit.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,6 +16,14 @@ public class Expense {
         super();
     }
 
+    /**
+     *
+     * @param amount expense's amount
+     * @param type expense's type
+     * @param description expense's description
+     * @param month expense's month
+     * @param userId expense's user id
+     */
     public Expense(double amount, String type, String description, String month, int userId) {
         this.amount = amount;
         this.type = type;

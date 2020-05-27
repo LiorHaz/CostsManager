@@ -4,10 +4,8 @@
     <title>Page Not Found</title>
 </head>
 <body>
-
 <h1> INCORRECT URL PATH </h1>
 <br><br>
-<h1> TRY:    http://localhost:8010/CostsManagerHit/login </h1>
-
+<h2> Please try this url:  http://localhost:8010/CostsManagerHit/login </h2>
 </body>
 </html>

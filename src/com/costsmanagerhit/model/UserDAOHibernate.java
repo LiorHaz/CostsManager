@@ -1,4 +1,4 @@
-package costsManagerHit.model;
+package com.costsmanagerhit.model;
 
 import org.hibernate.*;
 import org.hibernate.cfg.AnnotationConfiguration;
@@ -16,6 +16,10 @@ public class UserDAOHibernate implements IUserDAO{
         factory = new AnnotationConfiguration().configure().buildSessionFactory();
     }
 
+    /**
+     *
+     * @return the instance of this object - singleton
+     */
     public static IUserDAO getInstance() {
         if(instance==null){
             instance= new UserDAOHibernate();

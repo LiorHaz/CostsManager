@@ -1,16 +1,30 @@
-package costsManagerHit.controller;
+package com.costsmanagerhit.controller;
 
-import costsManagerHit.model.*;
-
+import com.costsmanagerhit.model.IUserDAO;
+import com.costsmanagerhit.model.User;
+import com.costsmanagerhit.model.UserDAOException;
+import com.costsmanagerhit.model.UserDAOHibernate;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class RegisterController {
-
+    /**
+     *
+     * @param request The request which was sent to the controller
+     * @param response The response which was sent to the controller
+     * @param data Extra data if needed
+     * @return true with no reason - just redirecting to login page
+     */
     public boolean register(HttpServletRequest request, HttpServletResponse response, String data) {
         return true;
     }
-
+    /**
+     *
+     * @param request The request which was sent to the controller
+     * @param response The response which was sent to the controller
+     * @param data Extra data if needed
+     * @return true if registration succeeded, otherwise - false
+     */
     public boolean attemptRegister(HttpServletRequest request, HttpServletResponse response, String data) {
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
@@ -27,10 +41,9 @@ public class RegisterController {
                 //Getting an indicator for register failed/done msg
                 request.setAttribute("isRegisteredSuccessfully",true);
             }
-        } catch (UserDAOException  e) {
+        } catch (UserDAOException e) {
             e.printStackTrace();
         }
         return true;
     }
-
 }

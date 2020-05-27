@@ -159,7 +159,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
             session = factory.openSession();
             session.beginTransaction();
 //            TODO split to smaller function
-            Query query = session.createQuery("FROM Expense E WHERE E.id= :id order by id desc");
+            Query query = session.createQuery("FROM Expense E WHERE E.userId= :id order by id desc");
             query.setString("id", String.valueOf(id));
             List<?> expensesList = query.list();
             expenses = listToArray(expensesList);

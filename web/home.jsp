@@ -15,10 +15,9 @@
             return;
         }
     %>
-    <h2>Last Three Expenses:</h2>
+    <h2>Your Last Three Expenses:</h2>
     <table>
         <tr>
-            <td>Expense ID</td>
             <td>Type</td>
             <td>Price</td>
             <td>Description</td>
@@ -30,14 +29,12 @@
 
             for (Expense currentExpense : expenses)
             {
-                int id = currentExpense.getId();
                 String type = currentExpense.getType();
                 double amount = currentExpense.getAmount();
                 String description = currentExpense.getDescription();
                 String month = currentExpense.getMonth();
         %>
         <tr>
-            <td><%= String.valueOf(id) %></td>
             <td><%= type %></td>
             <td><%= String.valueOf(amount) %></td>
             <td><%= description %></td>
@@ -47,17 +44,16 @@
             }
         %>
     </table>
-    <br> <br>
 
     <br> <br>
     <h2>Add an Expense</h2>
     <form method="post" action="http://localhost:8010/CostsManagerHit/home/addExpense">
         <label for="expenseType">Choose a type: </label>
         <select id="expenseType" name="expenseType">
-            <option value="general">general</option>
-            <option value="car">car</option>
-            <option value="house">house</option>
-            <option value="food">food</option>
+            <option value="general">General</option>
+            <option value="car">Car</option>
+            <option value="house">House</option>
+            <option value="food">Food</option>
         </select>
         <br> <br>
         <label for="expenseMonth">Choose a month: </label>

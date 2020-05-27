@@ -4,6 +4,7 @@ li {
     font-size: 3vh;
 }
 
+
 a {
     text-decoration: none;
     color: #D6EFFF;
@@ -18,7 +19,7 @@ nav {
 
 footer {
     margin: 0;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -28,4 +29,9 @@ ul {
     margin: 0;
     padding: 0;
     display: flex;
+}
+body {
+    min-height: 400px;
+    margin-bottom: 100px;
+    clear: both;
 }

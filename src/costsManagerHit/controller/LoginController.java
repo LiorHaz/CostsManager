@@ -11,8 +11,7 @@ import java.io.IOException;
 
 public class LoginController {
 
-    public boolean login(HttpServletRequest request, HttpServletResponse response, String data) {
-        return true;
+    public void login(HttpServletRequest request, HttpServletResponse response, String data) {
     }
 
     public boolean attemptLogin(HttpServletRequest request, HttpServletResponse response, String data) {
@@ -24,18 +23,17 @@ public class LoginController {
             if (user != null)
             {
                 request.getSession().setAttribute("user", user);
-                response.sendRedirect("http://localhost:8010/CostsManagerHit/login/userLogged");
-//                TODO pass authentication using cookies
-//                String forwardUrl = "/CostsManagerHit/home/home/" + user.getId();
-//                RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher(forwardUrl);
-//                dispatcher.forward(request, response);
-                return false;
+                String forwardUrl = "/CostsManagerHit/home/home/" + user.getId();
+                RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher(forwardUrl);
+                dispatcher.forward(request, response);
+                return true;
             }
-        } catch (UserDAOException | IOException e) {
+            else
+                request.setAttribute("isSuccessfullyLoggedIn",false);
+        } catch (UserDAOException | IOException | ServletException e) {
             e.printStackTrace();
         }
-        request.setAttribute("isSuccessfullyLoggedIn",false);
-        return true;
+        return false;
     }
 
     private void createLoginCookie(HttpServletResponse response) {
@@ -44,10 +42,8 @@ public class LoginController {
         response.addCookie(appCookie);
     }
 
-    public boolean logOut(HttpServletRequest request, HttpServletResponse response, String data) throws IOException {
-        request.getSession().removeAttribute("user");
-        response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
-        return false;
+    public void logOut(HttpServletRequest request, HttpServletResponse response, String data) {
+       request.getSession().setAttribute("user",null);
     }
 
     private boolean appCookieExists(HttpServletRequest request) {
@@ -58,12 +54,6 @@ public class LoginController {
                     return true;
             }
         }
-        return false;
-    }
-
-    public boolean userLogged(HttpServletRequest request, HttpServletResponse response, String data) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/userLogged.jsp");
-        dispatcher.include(request,response);
         return false;
     }
 

@@ -22,6 +22,12 @@
     if(isSuccessful!=null)
         if(!isSuccessful)
             out.println("Invalid username or password.</br>Please try again.");
+    Boolean isRegisteredSuccessfully=(Boolean)request.getAttribute("isRegisteredSuccessfully");
+    if(isRegisteredSuccessfully!=null)
+        if(isRegisteredSuccessfully) {
+            out.println("Registration succeeded.");
+            request.removeAttribute("isRegisteredSuccessfully");
+        }
 %>
 </body>
 

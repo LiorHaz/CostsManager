@@ -150,6 +150,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         return expenses;
     }
 
+    @Override
     public Expense[] getUserExpenses(int id) {
         Expense[] expenses = null;
         Session session = null;
@@ -158,7 +159,6 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             session = factory.openSession();
             session.beginTransaction();
-//            TODO split to smaller function
             Query query = session.createQuery("FROM Expense E WHERE E.userId= :id order by id desc");
             query.setString("id", String.valueOf(id));
             List<?> expensesList = query.list();

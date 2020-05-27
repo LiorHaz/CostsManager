@@ -23,7 +23,7 @@ public class RegisterController {
                 request.setAttribute("isRegisteredSuccessfully",false);
                 return false;
             }
-            else { //The user doesn't exist - add the user to db and set its reference to the session
+            else { //The user doesn't exist - add the user to db
                 //Getting an indicator for register failed/done msg
                 request.setAttribute("isRegisteredSuccessfully",true);
             }

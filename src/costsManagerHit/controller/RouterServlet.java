@@ -42,7 +42,7 @@ public class RouterServlet extends HttpServlet {
 
 			Method method;
 			String action;
-			String id = "0";
+			String id = "";
 			String viewName = "";
 
 			if (urlArray.length > 2)
@@ -67,12 +67,13 @@ public class RouterServlet extends HttpServlet {
 
 			Class<?> myController = Class.forName(controllerClassFullPath);
 			method = myController.getMethod(action, HttpServletRequest.class, HttpServletResponse.class, String.class);
-			boolean shouldLoadView = (boolean) method.invoke(myController.newInstance(), request, response, id);
+			Boolean actionReturnValue = (Boolean) method.invoke(myController.newInstance(), request, response, id);
 
-			if (shouldLoadView) {
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+viewName+".jsp");
-				dispatcher.include(request,response);
-			}
+			if(Objects.equals(action, "attemptRegister") && actionReturnValue)
+				viewName="login";
+
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+viewName+".jsp");
+			dispatcher.include(request,response);
 
 		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| InstantiationException | NoSuchMethodException | SecurityException e) {

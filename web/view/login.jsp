@@ -19,7 +19,7 @@
     </form>
 <%
     Boolean isSuccessful=(Boolean)request.getAttribute("isSuccessfullyLoggedIn");
-    if(isSuccessful!=null)
+    if(isSuccessful != null)
         if(!isSuccessful)
             out.println("Invalid username or password.</br>Please try again.");
     Boolean isRegisteredSuccessfully=(Boolean)request.getAttribute("isRegisteredSuccessfully");

@@ -22,6 +22,10 @@ import java.util.Objects;
 public class RouterServlet extends HttpServlet {
 
 	final String[] existingControllersNames = {"Expenses", "Login", "Register", "PageNotFound", "Home"};
+	String controllerName = "";
+	String action = "";
+	String id = "";
+	String viewName = "";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -37,27 +41,16 @@ public class RouterServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+			Method method;
+
 			response.setContentType("text/html");
 			String[] urlArray = request.getRequestURI().split("/");
 
-			Method method;
-			String action;
-			String id = "";
-			String viewName = "";
+			if (urlPointToCssFile(urlArray))
+				return;
 
-			if (urlArray.length > 2)
-				viewName = urlArray[2];
-				if (Objects.equals(viewName, "css"))
-					return;
-			String controllerName = urlArray[2].substring(0, 1).toUpperCase() + urlArray[2].substring(1);
-			if (urlArray.length > 3)
-				action = urlArray[3].substring(0, 1).toLowerCase() + urlArray[3].substring(1);
-			else
-				action = controllerName.substring(0, 1).toLowerCase() + controllerName.substring(1);
-			if (urlArray.length > 4)
-				id = urlArray[4];
-
-			if (Arrays.stream(existingControllersNames).noneMatch(controllerName::equals))
+			getVariablesValuesFromUrl(urlArray);
+			if (controllerDoesntExists(controllerName))
 			{
 				controllerName = "PageNotFound";
 				action = "pageNotFound";
@@ -79,6 +72,28 @@ public class RouterServlet extends HttpServlet {
 				| InstantiationException | NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void getVariablesValuesFromUrl(String[] urlArray) {
+		if (urlArray.length > 2)
+		{
+			viewName = urlArray[2];
+			controllerName = urlArray[2].substring(0, 1).toUpperCase() + urlArray[2].substring(1);
+		}
+		if (urlArray.length > 3)
+			action = urlArray[3].substring(0, 1).toLowerCase() + urlArray[3].substring(1);
+		else
+			action = viewName;
+		if (urlArray.length > 4)
+			id = urlArray[4];
+	}
+
+	private boolean controllerDoesntExists(String controllerName) {
+		return Arrays.stream(existingControllersNames).noneMatch(controllerName::equals);
+	}
+
+	private boolean urlPointToCssFile(String[] urlArray) {
+		return Objects.equals(urlArray[0], "css");
 	}
 
 	private String getControllerClassFullPath(String controllerName) {

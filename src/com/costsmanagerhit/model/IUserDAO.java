@@ -25,5 +25,5 @@ public interface IUserDAO {
       * @return true if the user exists, otherwise - false
       * @throws UserDAOException in case the user already exists
       */
-     boolean validateUserName(String userName) throws UserDAOException;
+     boolean userNameExists(String userName) throws UserDAOException;
 }

@@ -17,18 +17,17 @@ public class UserDAOHibernate implements IUserDAO{
     }
 
     /**
-     *
-     * @return the instance of this object - singleton
+     * @return the instance of this object, if no instance exists, create a new one.
      */
     public static IUserDAO getInstance() {
-        if(instance==null){
+        if(instance == null){
             instance= new UserDAOHibernate();
         }
         return instance;
     }
 
     @Override
-    public User validateUserAndPassword(String userName,String password) throws UserDAOException {
+    public User validateUserAndPassword(String userName,String password) {
         Session session = null;
         User u = null;
         try {
@@ -63,59 +62,58 @@ public class UserDAOHibernate implements IUserDAO{
     @Override
     public User addUser(String userName,String password) throws UserDAOException {
         Session session = null;
-        User u = null;
+        User user = null;
         try {
             session = factory.openSession();
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             session.beginTransaction();
 
-            if(!validateUserName(userName))
-                throw new UserDAOException("Username '" + userName +"' already exists - try another username");
+            if(!userNameExists(userName))
+                throw new UserDAOException("An attempt to register userName: '" + userName +"' was done, user already exists.");
 
-            //Saves the user in database and returning him with id for the session object
-            User user=new User(userName,password);
-            session.save(user);
+            User userTemp = new User(userName, password);
+            session.save(userTemp);
             session.getTransaction().commit();
-            Query query=session.createQuery("from User U where U.username= :username")
+            Query query = session.createQuery("from User U where U.username= :username")
                     .setString("username",userName);
-            List<?> users=query.list();
-            Iterator<?> i=users.iterator();
-            u=(User)users.get(0);
+            List<?> users = query.list();
+            Iterator<?> i = users.iterator();
+            user = (User)users.get(0);
         }
-        catch (HibernateException e)
+        catch (HibernateException | ClassNotFoundException e)
         {
             Transaction tx = Objects.requireNonNull(session).getTransaction();
-            if (tx.isActive()) tx.rollback();
-        }
-        catch (UserDAOException | ClassNotFoundException e){
+            if (tx.isActive())
+                tx.rollback();
             e.printStackTrace();
         }
         finally
         {
-            if(session!=null) session.close();
+            if(session!=null)
+                session.close();
         }
-        return u;
+        return user;
     }
 
     @Override
-    public boolean validateUserName(String userName) throws UserDAOException {
+    public boolean userNameExists(String userName) {
         Session session = null;
         try
         {
             session = factory.openSession();
             session.beginTransaction();
 
-            //Checks if the user exists before adding him
-            Query query=session.createQuery("FROM User U WHERE U.username = :username")
+            Query query = session.createQuery("FROM User U WHERE U.username = :username")
                     .setString("username",userName);
             List<?> users = query.list();
-            if(users.size()!=0)//The user exists - return null
+            if(users.size() != 0)//The user exists - return null
                 return false;
         }
         catch (HibernateException e)
         {
             Transaction tx = Objects.requireNonNull(session).getTransaction();
-            if (tx.isActive()) tx.rollback();
+            if (tx.isActive())
+                tx.rollback();
         }
         finally
         {

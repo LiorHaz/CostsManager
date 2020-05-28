@@ -60,13 +60,12 @@ public class RouterServlet extends HttpServlet {
 
 			Class<?> myController = Class.forName(controllerClassFullPath);
 			method = myController.getMethod(action, HttpServletRequest.class, HttpServletResponse.class, String.class);
-			Boolean actionReturnValue = (Boolean) method.invoke(myController.newInstance(), request, response, id);
+			Boolean redirectWasSent = (Boolean) method.invoke(myController.newInstance(), request, response, id);
 
-			if(Objects.equals(action, "attemptRegister") && actionReturnValue)
-				viewName="login";
-
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/view/"+viewName+".jsp");
-			dispatcher.include(request,response);
+			if (!redirectWasSent) {
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/view/" + viewName + ".jsp");
+				dispatcher.include(request, response);
+			}
 
 		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| InstantiationException | NoSuchMethodException | SecurityException e) {

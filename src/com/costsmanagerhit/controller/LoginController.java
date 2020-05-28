@@ -13,17 +13,20 @@ import java.io.IOException;
 
 public class LoginController {
     /**
-     *
      * @param request The request which was sent to the controller
      * @param response The response which was sent to the controller
      * @param data Extra data if needed
+     * @return boolean returns if redirect was sent
      */
-    public void login(HttpServletRequest request, HttpServletResponse response, String data){}
+    public boolean login(HttpServletRequest request, HttpServletResponse response, String data){
+        return false;
+    }
+
     /**
-     *
      * @param request The request which was sent to the controller
      * @param response The response which was sent to the controller
      * @param data Extra data if needed
+     * @return boolean returns if redirect was sent
      */
     public boolean attemptLogin(HttpServletRequest request, HttpServletResponse response, String data) {
         String userName = request.getParameter("userName");
@@ -46,8 +49,8 @@ public class LoginController {
         }
         return false;
     }
+
     /**
-     *
      * @param request The request which was sent to the controller
      * @param response The response which was sent to the controller
      * @param data Extra data if needed
@@ -55,8 +58,8 @@ public class LoginController {
     public void logOut(HttpServletRequest request, HttpServletResponse response, String data) {
         request.getSession().setAttribute("user",null);
     }
+
     /**
-     *
      * @param response The response which was sent to the controller
      */
     private void createLoginCookie(HttpServletResponse response) {
@@ -65,7 +68,6 @@ public class LoginController {
         response.addCookie(appCookie);
     }
     /**
-     *
      * @param request The request which was sent to the controller
      * @return true if the cookie exist - false otherwise
      */

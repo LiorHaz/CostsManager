@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/common.css">
-    <link rel="stylesheet" type="text/css" href="/css/register.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/register.css">
     <title>Register</title>
 </head>
 

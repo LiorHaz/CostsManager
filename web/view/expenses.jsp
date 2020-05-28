@@ -1,14 +1,14 @@
 <%@ page import="com.costsmanagerhit.model.Expense" %>
+<%@ page import="java.util.Objects" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="/css/common.css">
-  <link rel="stylesheet" type="text/css" href="/css/expenses.css">
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common.css">
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/expenses.css">
   <title>Main Page</title>
 </head>
 
 <body>
-</form>
 <h3>Filter by month</h3>
 <form method="post" action="http://localhost:8010/CostsManagerHit/expenses/filterByMonth">
   <label for="filteredMonth">Select month:</label>
@@ -108,7 +108,7 @@
 
   if(request.getAttribute("month")!=null) {
     String month = (String) request.getAttribute("month");
-    if (expenses.length == 0)
+    if (Objects.requireNonNull(expenses).length == 0)
       out.print("<h4>There are no Expenses for " + month+"</h4>");
     else {
       out.print("<br>");

@@ -1,20 +1,21 @@
 <%@ page import="com.costsmanagerhit.model.User" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.Objects" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common.css">
     <%
         User user = (User) session.getAttribute("user");
         if (user == null) {
             response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
         }
     %>
-    <link rel="stylesheet" type="text/css" href="/css/common.css">
     <title>User Logged Successfully</title>
 </head>
 <body>
-    <center>
-        Welcome, <%=user.getUsername()%>
-    </center>
+    <div style="text-align: center;">
+        Welcome <%=Objects.requireNonNull(user).getUsername()%>, you have logged in!
+    </div>
 </body>
 
 <footer>

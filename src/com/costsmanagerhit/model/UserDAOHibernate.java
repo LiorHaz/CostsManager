@@ -39,7 +39,8 @@ public class UserDAOHibernate implements IUserDAO{
                     .setString("username",userName)
                     .setString("password",password);
             List<?> users = query.list();
-            if(users.size()==0)//The user does not exists or wrong password - return null
+//            TODO function should return expection and controller react to it
+            if(users.size() == 0)//The user does not exists or wrong password - return null
                 throw new UserDAOException("Username '" + userName +"' is not valid or wrong password");
             //The user exists - return him
             u = (User)users.get(0);

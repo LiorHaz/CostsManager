@@ -16,11 +16,11 @@ public class ExpensesController {
 	 * @param response The response which was sent to the controller
 	 * @param data Extra data if needed
 	 */
-	public void expenses(HttpServletRequest request, HttpServletResponse response, String data) {
+	public boolean expenses(HttpServletRequest request, HttpServletResponse response, String data) {
 		User user=(User)request.getSession().getAttribute("user");
 		if(user==null){
 			goToLogin(request, response);
-			return;
+			return true;
 		}
 		Expense[] expenses ;
 		try {
@@ -30,20 +30,22 @@ public class ExpensesController {
 		} catch (ExpenseDAOException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
+
 	/**
 	 *
 	 * @param request The request which was sent to the controller
 	 * @param response The response which was sent to the controller
 	 * @param data Extra data if needed
 	 */
-	public void filterByMonth(HttpServletRequest request, HttpServletResponse response, String data) {
+	public boolean filterByMonth(HttpServletRequest request, HttpServletResponse response, String data) {
 		String filteredMonth = request.getParameter("filteredMonth");
 		try {
 			User user=(User)request.getSession().getAttribute("user");
 			if(user==null){
 				goToLogin(request, response);
-				return;
+				return true;
 			}
 			Expense[] expenses = ExpenseDAOHibernate.getInstance().getUserExpensesByMonth(filteredMonth, user.getId());
 			double sum = getExpensesSum(expenses);
@@ -53,14 +55,16 @@ public class ExpensesController {
 		} catch (ExpenseDAOException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
+
 	/**
 	 *
 	 * @param request The request which was sent to the controller
 	 * @param response The response which was sent to the controller
 	 * @param data Extra data if needed
 	 */
-	public void filterBySearch(HttpServletRequest request, HttpServletResponse response, String data){
+	public boolean filterBySearch(HttpServletRequest request, HttpServletResponse response, String data){
 		String expenseType=request.getParameter("expenseType");
 		String expenseMonth=request.getParameter("expenseMonth");
 		String expenseDescription=request.getParameter("expenseDescription");
@@ -69,7 +73,7 @@ public class ExpensesController {
 		User user=(User)request.getSession().getAttribute("user");
 		if(user==null){
 			goToLogin(request, response);
-			return;
+			return true;
 		}
 		try {
 			IExpenseDAO iExpenseDAOHibernate=ExpenseDAOHibernate.getInstance();
@@ -79,26 +83,28 @@ public class ExpensesController {
 		} catch (ExpenseDAOException e) {
 			e.printStackTrace();
 		}
-
+		return false;
 	}
+
 	/**
 	 *
 	 * @param request The request which was sent to the controller
 	 * @param response The response which was sent to the controller
 	 * @param data Extra data if needed
 	 */
-	public void addExpense(HttpServletRequest request, HttpServletResponse response, String data) {
+	public boolean addExpense(HttpServletRequest request, HttpServletResponse response, String data) {
 		String type = request.getParameter("expenseType");
 		String month = request.getParameter("expenseMonth");
 		String description = request.getParameter("expenseDescription");
 		double amount = Double.parseDouble(request.getParameter("expenseAmount"));
-		User user=(User)request.getSession().getAttribute("user");
-		if(user==null){
-			goToLogin(request, response);
-			return;
-		}
-		Expense expense = new Expense(amount, type, description, month, user.getId());
 
+		User user=(User)request.getSession().getAttribute("user");
+		if(user == null){
+			goToLogin(request, response);
+			return true;
+		}
+
+		Expense expense = new Expense(amount, type, description, month, user.getId());
 		try {
 			IExpenseDAO iExpenseDAOHibernate = ExpenseDAOHibernate.getInstance();
 			iExpenseDAOHibernate.addExpense(expense);
@@ -109,7 +115,9 @@ public class ExpensesController {
 		} catch (ExpenseDAOException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
+
 	/**
 	 *
 	 * @param expenses The expenses array which the summarize will be computed from
@@ -121,6 +129,7 @@ public class ExpensesController {
 			sum += expense.getAmount();
 		return sum;
 	}
+
 	/**
 	 *
 	 * @param allExpenses The expenses array which will be split
@@ -138,6 +147,7 @@ public class ExpensesController {
 		}
 		return firstThreeElements;
 	}
+
 	/**
 	 *
 	 * @param request The request which was sent to the controller

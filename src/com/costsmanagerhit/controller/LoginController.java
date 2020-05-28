@@ -19,6 +19,7 @@ public class LoginController {
      * @return boolean returns if redirect was sent
      */
     public boolean login(HttpServletRequest request, HttpServletResponse response, String data){
+//        TODO if user already login redirect to home
         return false;
     }
 
@@ -37,14 +38,12 @@ public class LoginController {
             if (user != null)
             {
                 request.getSession().setAttribute("user", user);
-                String forwardUrl = "/CostsManagerHit/home/home/" + user.getId();
-                RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher(forwardUrl);
-                dispatcher.forward(request, response);
+                response.sendRedirect("http://localhost:8010/CostsManagerHit/login/userLogged");
                 return true;
             }
             else
                 request.setAttribute("isSuccessfullyLoggedIn",false);
-        } catch (UserDAOException | IOException | ServletException e) {
+        } catch (UserDAOException | IOException e) {
             e.printStackTrace();
         }
         return false;
@@ -55,8 +54,10 @@ public class LoginController {
      * @param response The response which was sent to the controller
      * @param data Extra data if needed
      */
-    public void logOut(HttpServletRequest request, HttpServletResponse response, String data) {
-        request.getSession().setAttribute("user",null);
+    public boolean logOut(HttpServletRequest request, HttpServletResponse response, String data) throws IOException {
+        request.getSession().removeAttribute("user");
+        response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
+        return false;
     }
 
     /**
@@ -67,6 +68,7 @@ public class LoginController {
         appCookie.setMaxAge(99999);
         response.addCookie(appCookie);
     }
+
     /**
      * @param request The request which was sent to the controller
      * @return true if the cookie exist - false otherwise
@@ -82,4 +84,15 @@ public class LoginController {
         return false;
     }
 
+    /**
+     * @param request The request which was sent to the controller
+     * @param response The response which was sent to the controller
+     * @param data Extra data if needed
+     */
+    public boolean userLogged(HttpServletRequest request, HttpServletResponse response, String data) throws ServletException, IOException {
+//        TODO if user login already redirect to home
+        RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/view/userLogged.jsp");
+        dispatcher.include(request,response);
+        return true;
+    }
 }

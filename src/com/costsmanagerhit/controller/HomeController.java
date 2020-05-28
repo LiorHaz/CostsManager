@@ -19,13 +19,13 @@ public class HomeController {
      * @param response The response which was sent to the controller
      * @param data Extra data if needed
      */
-    public void home(HttpServletRequest request, HttpServletResponse response, String data) {
+    public boolean home(HttpServletRequest request, HttpServletResponse response, String data) {
         Expense[] lastThreeExpenses;
         try {
             User user=(User)request.getSession().getAttribute("user");
-            if(user==null){
+            if(user == null){
                 goToLogin(request, response);
-                return;
+                return true;
             }
             Expense[] allExpenses = ExpenseDAOHibernate.getInstance().getUserExpenses(user.getId());
             lastThreeExpenses = splitFirstThreeElements(allExpenses);
@@ -33,7 +33,9 @@ public class HomeController {
         } catch (ExpenseDAOException e) {
             e.printStackTrace();
         }
+        return false;
     }
+
     /**
      *
      * @param allExpenses The expenses array which will be split
@@ -51,6 +53,7 @@ public class HomeController {
         }
         return firstThreeElements;
     }
+
     /**
      *
      * @param request The request which was sent to the controller
@@ -66,6 +69,7 @@ public class HomeController {
             e.printStackTrace();
         }
     }
+
     /**
      *
      * @param request The request which was sent to the controller

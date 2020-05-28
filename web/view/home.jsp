@@ -3,15 +3,15 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/common.css">
-    <link rel="stylesheet" type="text/css" href="/css/expenses.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/expenses.css">
     <title>Main Page</title>
 </head>
 
 <body>
     <%
         User user = (User) session.getAttribute("user");
-        if(user!=null){
+        if(user != null){
             out.println("<h1>Welcome, "+user.getUsername()+"!</h1>");
         }
     %>

@@ -13,17 +13,23 @@ import java.io.IOException;
 
 public class LoginController {
     /**
+     * Redirect to home URL if user is already logged in
      * @param request The request which was sent to the controller
      * @param response The response which was sent to the controller
      * @param data Extra data if needed
      * @return boolean returns if redirect was sent
      */
-    public boolean login(HttpServletRequest request, HttpServletResponse response, String data){
-//        TODO if user already login redirect to home
+    public boolean login(HttpServletRequest request, HttpServletResponse response, String data) throws IOException {
+        User user = (User)request.getSession().getAttribute("user");
+        if(user != null){
+            response.sendRedirect("http://localhost:8010/CostsManagerHit/home");
+            return true;
+        }
         return false;
     }
 
     /**
+     * Verify user form information with the DB, if it fits, saves the user into the session and redirect to home
      * @param request The request which was sent to the controller
      * @param response The response which was sent to the controller
      * @param data Extra data if needed
@@ -50,6 +56,7 @@ public class LoginController {
     }
 
     /**
+     * Remove the user session information and redirect to login
      * @param request The request which was sent to the controller
      * @param response The response which was sent to the controller
      * @param data Extra data if needed
@@ -61,6 +68,7 @@ public class LoginController {
     }
 
     /**
+     * Create a cookie for the page (need to ask if we need to use this or not)
      * @param response The response which was sent to the controller
      */
     private void createLoginCookie(HttpServletResponse response) {
@@ -70,6 +78,7 @@ public class LoginController {
     }
 
     /**
+     * Check if the app cookie exists or not
      * @param request The request which was sent to the controller
      * @return true if the cookie exist - false otherwise
      */
@@ -85,12 +94,13 @@ public class LoginController {
     }
 
     /**
+     * Method for redirecting to "userLogged" after successful login action
      * @param request The request which was sent to the controller
      * @param response The response which was sent to the controller
      * @param data Extra data if needed
+     * @return true
      */
     public boolean userLogged(HttpServletRequest request, HttpServletResponse response, String data) throws ServletException, IOException {
-//        TODO if user login already redirect to home
         RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/view/userLogged.jsp");
         dispatcher.include(request,response);
         return true;

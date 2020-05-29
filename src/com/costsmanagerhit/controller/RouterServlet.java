@@ -73,6 +73,10 @@ public class RouterServlet extends HttpServlet {
 		}
 	}
 
+	/**
+	 * Sets viewName, controllerName, action, id class variables using the url information
+	 * @param urlArray The request url in the form of an array
+	 */
 	private void getVariablesValuesFromUrl(String[] urlArray) {
 		if (urlArray.length > 2)
 		{
@@ -87,14 +91,29 @@ public class RouterServlet extends HttpServlet {
 			id = urlArray[4];
 	}
 
+	/**
+	 * Check if the controllerName is in "existingControllersNames" array
+	 * @param controllerName the controller name taken sent
+	 * @return boolean if "controllerName" found is in "existingControllersNames"
+	 */
 	private boolean controllerDoesntExists(String controllerName) {
 		return Arrays.stream(existingControllersNames).noneMatch(controllerName::equals);
 	}
 
+	/**
+	 * Check if the request url points to a "css" file or not
+	 * @param urlArray The request url in the form of an array
+	 * @return boolean if "urArray[0]" is "css"
+	 */
 	private boolean urlPointToCssFile(String[] urlArray) {
 		return Objects.equals(urlArray[0], "css");
 	}
 
+	/**
+	 * Returns the controller file full path
+	 * @param controllerName the controller name
+	 * @return String the full controller name path
+	 */
 	private String getControllerClassFullPath(String controllerName) {
 		return com.costsmanagerhit.config.CONTROLLERS_PACKAGE + "." + controllerName + "Controller";
 	}

@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class HomeController {
     /**
-     *
+     * Action for home view, setting last three expenses attribute
      * @param request The request which was sent to the controller
      * @param response The response which was sent to the controller
      * @param data Extra data if needed
@@ -24,20 +24,20 @@ public class HomeController {
         try {
             User user=(User)request.getSession().getAttribute("user");
             if(user == null){
-                goToLogin(request, response);
+                response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
                 return true;
             }
             Expense[] allExpenses = ExpenseDAOHibernate.getInstance().getUserExpenses(user.getId());
             lastThreeExpenses = splitFirstThreeElements(allExpenses);
             request.setAttribute("expenses", lastThreeExpenses);
-        } catch (ExpenseDAOException e) {
+        } catch (ExpenseDAOException | IOException e) {
             e.printStackTrace();
         }
         return false;
     }
 
     /**
-     *
+     * Takes an array and return a new array made of the first 3 values
      * @param allExpenses The expenses array which will be split
      * @return The last three expenses as array
      */
@@ -55,23 +55,7 @@ public class HomeController {
     }
 
     /**
-     *
-     * @param request The request which was sent to the controller
-     * @param response  The response which was sent to the controller
-     *
-     */
-    private void goToLogin(HttpServletRequest request, HttpServletResponse response){
-        String forwardUrl = "/CostsManagerHit/login";
-        RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher(forwardUrl);
-        try {
-            dispatcher.forward(request, response);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     *
+     * Check if the app cookie exists in the client cookies list
      * @param request The request which was sent to the controller
      * @return true if the cookie exist - false otherwise
      */

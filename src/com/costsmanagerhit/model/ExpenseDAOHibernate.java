@@ -10,6 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Represent the class which implements the IExpenseDAO interface, adds/gets data to/from DB through Hibernate
+ */
 public class ExpenseDAOHibernate implements IExpenseDAO {
 
     private static IExpenseDAO instance;
@@ -20,24 +23,27 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
     }
 
     /**
-     *
+     *Gets instance of this class
      * @return Instance of this object - singleton
-     * @throws ExpenseDAOException in case of error
      */
-    public static IExpenseDAO getInstance() throws ExpenseDAOException{
+    public static IExpenseDAO getInstance() {
         if(instance==null){
             instance= new ExpenseDAOHibernate();
         }
         return instance;
     }
 
+    /**
+     * Add the expense to DB
+     * @param expense The expense object to add
+     * @throws ExpenseDAOException in case of error
+     */
     @Override
-    public void addExpense(Expense expense) {
+    public void addExpense(Expense expense) throws ExpenseDAOException {
         Session session = null;
         try {
             session = factory.openSession();
             Class.forName("org.apache.derby.jdbc.ClientDriver");
-            //            TODO Class.forName is a work around for driver not being loaded need to find a solution
             session.beginTransaction();
             session.save(expense);
             session.getTransaction().commit();
@@ -52,6 +58,13 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         }
     }
 
+    /**
+     * Get the user expenses by the given month
+     * @param month expense's month
+     * @param userId user id
+     * @return expenses of the required month
+     * @throws ExpenseDAOException in case there are no expenses
+     */
     @Override
     public Expense[] getUserExpensesByMonth(String month, int userId) throws ExpenseDAOException {
         Expense[] expenses =null;
@@ -74,10 +87,20 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         }
         return expenses;
     }
-
+    /**
+     * Get the user expenses by search by given parameters
+     * @param type expense's type
+     * @param month expense's month
+     * @param description expense's description
+     * @param minAmount expense's minimum amount
+     * @param maxAmount expense's maximum amount
+     * @param userId user id
+     * @return expenses filtered by search of the parameters
+     * @throws ExpenseDAOException in case there are no expenses
+     */
     @Override
     public Expense[] getUserExpensesBySearch(String type, String month, String description, double minAmount,
-                                         double maxAmount, int userId)  {
+                                         double maxAmount, int userId) throws ExpenseDAOException {
         Expense[] expenses =null;
         Session session = null;
         try
@@ -120,7 +143,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
     }
 
     /**
-     *
+     * Cast the list raw type which is given from the hibernate into an array
      * @param expensesList casting from expenses list raw type to expenses array
      * @return the expenses as array
      */
@@ -135,8 +158,14 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         return expenses;
     }
 
+    /**
+     * Get All the user expenses by user id
+     * @param id user id
+     * @return all the expenses of the user
+     * @throws ExpenseDAOException in case the user has no expenses yet
+     */
     @Override
-    public Expense[] getUserExpenses(int id) {
+    public Expense[] getUserExpenses(int id) throws ExpenseDAOException {
         Expense[] expenses = null;
         Session session = null;
         try

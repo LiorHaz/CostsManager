@@ -2,6 +2,8 @@
 
 package com.costsmanagerhit.controller;
 
+import com.costsmanagerhit.Config;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +16,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
 
-//TODO:Clean and organize the code in the servlet Roni!
 /**
  * Servlet implementation class RouterServlet
  */
@@ -115,7 +116,7 @@ public class RouterServlet extends HttpServlet {
 	 * @return String the full controller name path
 	 */
 	private String getControllerClassFullPath(String controllerName) {
-		return com.costsmanagerhit.config.CONTROLLERS_PACKAGE + "." + controllerName + "Controller";
+		return Config.CONTROLLERS_PACKAGE + "." + controllerName + "Controller";
 	}
 
 	/**

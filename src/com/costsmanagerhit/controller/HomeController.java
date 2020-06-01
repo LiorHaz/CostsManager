@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * Represents the home controller, which connects and passes data between the jsp pages and the model objects
+ */
 public class HomeController {
     /**
      * Action for home view, setting last three expenses attribute

@@ -3,6 +3,9 @@ package com.costsmanagerhit.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Represents the page not found controller
+ */
 public class PageNotFoundController {
     /**
      * Action function to move to pageNotFound

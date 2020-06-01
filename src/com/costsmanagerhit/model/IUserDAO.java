@@ -1,5 +1,8 @@
 package com.costsmanagerhit.model;
 
+/**
+ * Interface to represent the DAO object which is responsible to add/validate users to/from DB
+ */
 public interface IUserDAO {
      /**
       *

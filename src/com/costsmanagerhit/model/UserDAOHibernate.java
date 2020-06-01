@@ -6,7 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-
+/**
+ * Represent the class which implements the IUserDAO interface, adda/validates users to/from DB
+ */
 public class UserDAOHibernate implements IUserDAO{
 
     private static IUserDAO instance;
@@ -26,6 +28,12 @@ public class UserDAOHibernate implements IUserDAO{
         return instance;
     }
 
+    /**
+     *
+     * @param userName user name to validate
+     * @param password password to validate
+     * @return the user object if the validation succeeded, otherwise - null
+     */
     @Override
     public User validateUserAndPassword(String userName,String password) {
         Session session = null;
@@ -39,7 +47,6 @@ public class UserDAOHibernate implements IUserDAO{
                     .setString("username",userName)
                     .setString("password",password);
             List<?> users = query.list();
-//            TODO function should return expection and controller react to it
             if(users.size() == 0)//The user does not exists or wrong password - return null
                 throw new UserDAOException("Username '" + userName +"' is not valid or wrong password");
             //The user exists - return him
@@ -60,6 +67,13 @@ public class UserDAOHibernate implements IUserDAO{
         return u;
     }
 
+    /**
+     *
+     * @param userName the user name to add
+     * @param password the password to add
+     * @return user object if the registration succeeded, otherwise - null
+     * @throws UserDAOException in case of taken username
+     */
     @Override
     public User addUser(String userName,String password) throws UserDAOException {
         Session session = null;
@@ -96,6 +110,11 @@ public class UserDAOHibernate implements IUserDAO{
         return user;
     }
 
+    /**
+     *
+     * @param userName user name to validate
+     * @return false if the user exists, otherwise - true
+     */
     @Override
     public boolean userNameExists(String userName) {
         Session session = null;
@@ -107,7 +126,7 @@ public class UserDAOHibernate implements IUserDAO{
             Query query = session.createQuery("FROM User U WHERE U.username = :username")
                     .setString("username",userName);
             List<?> users = query.list();
-            if(users.size() != 0)//The user exists - return null
+            if(users.size() != 0)
                 return false;
         }
         catch (HibernateException e)

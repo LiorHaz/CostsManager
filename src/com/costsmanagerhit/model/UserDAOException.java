@@ -1,5 +1,8 @@
 package com.costsmanagerhit.model;
 
+/**
+ * Represents an exception in case of a problem in the user management
+ */
 public class UserDAOException extends Exception {
 
     public UserDAOException() {

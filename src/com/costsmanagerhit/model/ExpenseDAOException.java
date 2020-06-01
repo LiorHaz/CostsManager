@@ -1,5 +1,8 @@
 package com.costsmanagerhit.model;
 
+/**
+ * Represents an exception in case of a problem in the expense management
+ */
 public class ExpenseDAOException extends Exception {
 
     public ExpenseDAOException(){

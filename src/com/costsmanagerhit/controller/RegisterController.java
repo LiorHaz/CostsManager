@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Represents the register controller, which connects and passes data between the jsp pages and the model objects
+ */
 public class RegisterController {
     /**
      * Starting function for register URL

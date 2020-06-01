@@ -25,11 +25,11 @@ public class Expense {
      * @param userId expense's user id
      */
     public Expense(double amount, String type, String description, String month, int userId) {
-        this.amount = amount;
-        this.type = type;
-        this.description = description;
-        this.month = month;
-        this.userId = userId;
+        setAmount(amount);
+        setType(type);
+        setDescription(description);
+        setMonth(month);
+        setUserId(userId);
     }
 
     public int getId() {
@@ -53,6 +53,8 @@ public class Expense {
     }
 
     public void setAmount(double amount) {
+        if(amount<=0)
+            this.amount=9.99;
         this.amount = amount;
     }
 

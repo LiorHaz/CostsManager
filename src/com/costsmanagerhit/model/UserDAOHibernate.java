@@ -40,7 +40,6 @@ public class UserDAOHibernate implements IUserDAO{
         User u = null;
         try {
             session = factory.openSession();
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
             session.beginTransaction();
             //Checks if the user exists or details are valid
             Query query=session.createQuery("FROM User U WHERE U.username = :username and U.password= :password")
@@ -57,7 +56,7 @@ public class UserDAOHibernate implements IUserDAO{
             Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive()) tx.rollback();
         }
-        catch (UserDAOException | ClassNotFoundException e){
+        catch (UserDAOException e){
             e.printStackTrace();
         }
         finally
@@ -80,7 +79,6 @@ public class UserDAOHibernate implements IUserDAO{
         User user = null;
         try {
             session = factory.openSession();
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
             session.beginTransaction();
 
             if(!userNameExists(userName))
@@ -95,7 +93,7 @@ public class UserDAOHibernate implements IUserDAO{
             Iterator<?> i = users.iterator();
             user = (User)users.get(0);
         }
-        catch (HibernateException | ClassNotFoundException e)
+        catch (HibernateException e)
         {
             Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive())

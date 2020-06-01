@@ -43,11 +43,10 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         Session session = null;
         try {
             session = factory.openSession();
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
             session.beginTransaction();
             session.save(expense);
             session.getTransaction().commit();
-        } catch (HibernateException | ClassNotFoundException e) {
+        } catch (HibernateException e) {
             Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive())
                 tx.rollback();
@@ -170,7 +169,6 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
         Session session = null;
         try
         {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
             session = factory.openSession();
             session.beginTransaction();
             Query query = session.createQuery("FROM Expense E WHERE E.userId= :id order by id desc");
@@ -178,7 +176,7 @@ public class ExpenseDAOHibernate implements IExpenseDAO {
             List<?> expensesList = query.list();
             expenses = listToArray(expensesList);
         }
-        catch (HibernateException | ClassNotFoundException e)
+        catch (HibernateException e)
         {
             Transaction tx = Objects.requireNonNull(session).getTransaction();
             if (tx.isActive())

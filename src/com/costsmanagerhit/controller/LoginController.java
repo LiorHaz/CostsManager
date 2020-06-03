@@ -53,8 +53,12 @@ public class LoginController {
             }
             else
                 request.setAttribute("isSuccessfullyLoggedIn",false);
-        } catch (UserDAOException | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
+        } catch (UserDAOException e) {
+            System.out.println(e.getMessage());
+            request.setAttribute("isSuccessfullyLoggedIn",false);
+            return false;
         }
         return false;
     }

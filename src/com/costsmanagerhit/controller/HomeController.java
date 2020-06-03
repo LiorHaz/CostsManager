@@ -16,6 +16,7 @@ import java.util.Arrays;
  * Represents the home controller, which connects and passes data between the jsp pages and the model objects
  */
 public class HomeController {
+
     /**
      * Action for home view, setting last three expenses attribute
      * @param request The request which was sent to the controller
@@ -23,20 +24,29 @@ public class HomeController {
      * @param data Extra data if needed
      */
     public boolean home(HttpServletRequest request, HttpServletResponse response, String data) {
-        Expense[] lastThreeExpenses;
         try {
             User user=(User)request.getSession().getAttribute("user");
             if(user == null){
                 response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
                 return true;
             }
-            Expense[] allExpenses = ExpenseDAOHibernate.getInstance().getUserExpenses(user.getId());
-            lastThreeExpenses = splitFirstThreeElements(allExpenses);
-            request.setAttribute("expenses", lastThreeExpenses);
+            else
+                setLastThreeUserExpensesAttribute(user, request);
         } catch (ExpenseDAOException | IOException e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * Set "expenses" in the session with last three user expenses
+     * @param user The logged in user
+     * @param request The request sent from client
+     */
+    private void setLastThreeUserExpensesAttribute(User user, HttpServletRequest request) throws ExpenseDAOException {
+        Expense[] allExpenses = ExpenseDAOHibernate.getInstance().getUserExpenses(user.getId());
+        Expense[] lastThreeExpenses = splitFirstThreeElements(allExpenses);
+        request.setAttribute("expenses", lastThreeExpenses);
     }
 
     /**

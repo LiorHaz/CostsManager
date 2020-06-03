@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
  * Represents the page not found controller
  */
 public class PageNotFoundController {
+
     /**
      * Action function to move to pageNotFound
      * @param request The request which was sent to the controller

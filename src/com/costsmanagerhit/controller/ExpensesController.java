@@ -21,9 +21,9 @@ public class ExpensesController {
 	 * @param data Extra data if needed
 	 */
 	public boolean expenses(HttpServletRequest request, HttpServletResponse response, String data) {
-		/*Ensures that the user is still logged in*/
-		User user=(User)request.getSession().getAttribute("user");
-		if(user==null){
+		/* Ensures that the user is still logged in*/
+		User user = (User)request.getSession().getAttribute("user");
+		if(user == null){
 			goToLogin(request, response);
 			return true;
 		}

@@ -15,6 +15,7 @@ import java.io.IOException;
  * Represents the login controller, which connects and passes data between the jsp pages and the model objects
  */
 public class LoginController {
+
     /**
      * Redirect to home URL if user is already logged in
      * @param request The request which was sent to the controller

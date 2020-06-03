@@ -10,6 +10,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Represents the login controller, which connects and passes data between the jsp pages and the model objects
@@ -24,12 +25,52 @@ public class LoginController {
      * @return boolean returns if redirect was sent
      */
     public boolean login(HttpServletRequest request, HttpServletResponse response, String data) throws IOException {
-        User user = (User)request.getSession().getAttribute("user");
-        if(user != null){
-            response.sendRedirect("http://localhost:8010/CostsManagerHit/home");
-            return true;
+        String appCookieValue = getAppCookieValue(request);
+        if (!Objects.equals(appCookieValue, "")) {
+            String[] cookieValues = appCookieValue.split("_");
+            String userName = cookieValues[0];
+            String password = cookieValues[1];
+            return loginUsingCookie(request, response, userName, password);
+        }
+        else {
+            User user = (User)request.getSession().getAttribute("user");
+            if(user != null){
+                response.sendRedirect("http://localhost:8010/CostsManagerHit/home");
+                return true;
+            }
         }
         return false;
+    }
+
+    /**
+     * Verify user cookie information with the DB, if it fits, saves the user into the session and redirect to home
+     * @param request The request which was sent to the controller
+     * @param response The response which was sent to the controller
+     * @param userName user name taken from cookie
+     * @param password password taken from cookie
+     * @return boolean returns if redirect was sent
+     */
+    private boolean loginUsingCookie(HttpServletRequest request, HttpServletResponse response, String userName, String password) {
+        IUserDAO iUserDAOHibernate = UserDAOHibernate.getInstance();
+        try {
+            User user = iUserDAOHibernate.validateUserAndPassword(userName, password);
+            if (user != null)
+            {
+                request.getSession().setAttribute("user", user);
+                response.sendRedirect("http://localhost:8010/CostsManagerHit/login/userLogged");
+            }
+            else{
+                removeAppCookie(response);
+                response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
+            }
+        } catch (UserDAOException e) {
+            System.out.println(e.getMessage());
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -48,6 +89,7 @@ public class LoginController {
             if (user != null)
             {
                 request.getSession().setAttribute("user", user);
+                createLoginCookie(response, userName, password);
                 response.sendRedirect("http://localhost:8010/CostsManagerHit/login/userLogged");
                 return true;
             }
@@ -64,41 +106,52 @@ public class LoginController {
     }
 
     /**
-     * Remove the user session information and redirect to login
+     * Remove the user session/cookie information and redirect to login
      * @param request The request which was sent to the controller
      * @param response The response which was sent to the controller
      * @param data Extra data if needed
      */
     public boolean logOut(HttpServletRequest request, HttpServletResponse response, String data) throws IOException {
         request.getSession().removeAttribute("user");
+        removeAppCookie(response);
         response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
         return false;
+    }
+
+    /**
+     * Remove the app cookie in the user brewser
+     * @param response The response which was sent to the controller
+     */
+    private void removeAppCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("costsManager", "");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
     }
 
     /**
      * Create a cookie for the page (need to ask if we need to use this or not)
      * @param response The response which was sent to the controller
      */
-    private void createLoginCookie(HttpServletResponse response) {
-        Cookie appCookie = new Cookie("costsManager", "1");
+    private void createLoginCookie(HttpServletResponse response, String userName, String password) {
+        Cookie appCookie = new Cookie("costsManager", userName + "_" + password);
         appCookie.setMaxAge(99999);
         response.addCookie(appCookie);
     }
 
     /**
-     * Check if the app cookie exists or not
+     * Return app cookie value if it exists, if not return an empty string
      * @param request The request which was sent to the controller
-     * @return true if the cookie exist - false otherwise
+     * @return The application cookie value
      */
-    private boolean appCookieExists(HttpServletRequest request) {
+    private String getAppCookieValue(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if(cookie.getName().equals("costsManager"))
-                    return true;
+                    return cookie.getValue();
             }
         }
-        return false;
+        return "";
     }
 
     /**

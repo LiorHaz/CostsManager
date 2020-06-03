@@ -106,7 +106,7 @@
   else
     out.println("<h4>There are no expenses which match to your search</h4>");
 
-  if(request.getAttribute("month")!=null) {
+  if(request.getAttribute("month") != null) {
     String month = (String) request.getAttribute("month");
     if (Objects.requireNonNull(expenses).length == 0)
       out.print("<h4>There are no Expenses for " + month+"</h4>");

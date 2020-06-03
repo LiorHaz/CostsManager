@@ -22,10 +22,11 @@ public class HomeController {
      * @param request The request which was sent to the controller
      * @param response The response which was sent to the controller
      * @param data Extra data if needed
+     * @return boolean returns if redirect was sent
      */
     public boolean home(HttpServletRequest request, HttpServletResponse response, String data) {
+        User user = (User)request.getSession().getAttribute("user");
         try {
-            User user=(User)request.getSession().getAttribute("user");
             if(user == null){
                 response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
                 return true;

@@ -24,7 +24,7 @@ public class LoginController {
      * @param data Extra data if needed
      * @return boolean returns if redirect was sent
      */
-    public boolean login(HttpServletRequest request, HttpServletResponse response, String data) throws IOException {
+    public boolean login(HttpServletRequest request, HttpServletResponse response, String data) {
         String appCookieValue = getAppCookieValue(request);
         if (!Objects.equals(appCookieValue, "")) {
             String[] cookieValues = appCookieValue.split("_");
@@ -35,7 +35,11 @@ public class LoginController {
         else {
             User user = (User)request.getSession().getAttribute("user");
             if(user != null){
-                response.sendRedirect("http://localhost:8010/CostsManagerHit/home");
+                try {
+                    response.sendRedirect("http://localhost:8010/CostsManagerHit/home");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return true;
             }
         }
@@ -110,12 +114,17 @@ public class LoginController {
      * @param request The request which was sent to the controller
      * @param response The response which was sent to the controller
      * @param data Extra data if needed
+     * @return true since redirect always happen in logOut
      */
-    public boolean logOut(HttpServletRequest request, HttpServletResponse response, String data) throws IOException {
+    public boolean logOut(HttpServletRequest request, HttpServletResponse response, String data) {
         request.getSession().removeAttribute("user");
         removeAppCookie(response);
-        response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
-        return false;
+        try {
+            response.sendRedirect("http://localhost:8010/CostsManagerHit/login");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     /**
@@ -159,11 +168,15 @@ public class LoginController {
      * @param request The request which was sent to the controller
      * @param response The response which was sent to the controller
      * @param data Extra data if needed
-     * @return true
+     * @return true since there's no need to load jsp in router
      */
-    public boolean userLogged(HttpServletRequest request, HttpServletResponse response, String data) throws ServletException, IOException {
+    public boolean userLogged(HttpServletRequest request, HttpServletResponse response, String data) {
         RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/view/userLogged.jsp");
-        dispatcher.include(request,response);
+        try {
+            dispatcher.include(request,response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 }

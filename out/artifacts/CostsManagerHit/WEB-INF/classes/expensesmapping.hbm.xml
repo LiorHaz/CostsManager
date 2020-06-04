@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.costsmanagerhit.model.Expense" table="EXPENSES">
+		<id name="id" type="int" column="ID" >
+			<generator class="increment"/>
+		</id>
+		<property name="type">
+			<column name="TYPE"/>
+		</property>
+		<property name="amount">
+			<column name="AMOUNT"/>
+		</property>
+		<property name="description">
+			<column name="DESCRIPTION"/>
+		</property>
+		<property name="month">
+			<column name="MONTH"/>
+		</property>
+		<property name="userId">
+			<column name="USERID"/>
+		</property>
+	</class>
+</hibernate-mapping>
